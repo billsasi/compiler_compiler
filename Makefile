@@ -1,5 +1,5 @@
 ANTLRFILE = Pascal.g4
-antlr4 = java -jar ~/Library/ANTLR-4.7.2/antlr-4.7.2-complete.jar
+antlr4 = java -jar ${ANTLR_JAR}
 PROJECTPATH = $(shell pwd)
 ANTLR_RUNTIME_INCLUDES = /usr/local/include/antlr4-runtime	
 ANTLR_INCLUDES = $(PROJECTPATH)/target/generated-sources/ant4
