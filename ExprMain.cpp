@@ -30,14 +30,5 @@ int main(int argc, const char *args[])
         std::cout << token->toString() << std::endl;
     }
 
-    // // Create a parser which parses the token stream
-    // // to create a parse tree.
-    // ExprParser parser(&tokens);
-    // tree::ParseTree *tree = parser.program();
-
-    // // Print the parse tree in Lisp format.
-    // cout << endl << "Parse tree (Lisp format):" << endl;
-    // std::cout << tree->toStringTree(&parser) << endl;
-
     return 0;
 }

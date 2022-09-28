@@ -15,15 +15,7 @@
 class  ExprBaseVisitor : public ExprVisitor {
 public:
 
-  virtual antlrcpp::Any visitProgram(ExprParser::ProgramContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitStatement(ExprParser::StatementContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitExpr(ExprParser::ExprContext *ctx) override {
+  virtual antlrcpp::Any visitIdentifier(ExprParser::IdentifierContext *ctx) override {
     return visitChildren(ctx);
   }
 

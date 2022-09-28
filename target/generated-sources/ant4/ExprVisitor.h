@@ -19,11 +19,7 @@ public:
   /**
    * Visit parse trees produced by ExprParser.
    */
-    virtual antlrcpp::Any visitProgram(ExprParser::ProgramContext *context) = 0;
-
-    virtual antlrcpp::Any visitStatement(ExprParser::StatementContext *context) = 0;
-
-    virtual antlrcpp::Any visitExpr(ExprParser::ExprContext *context) = 0;
+    virtual antlrcpp::Any visitIdentifier(ExprParser::IdentifierContext *context) = 0;
 
 
 };

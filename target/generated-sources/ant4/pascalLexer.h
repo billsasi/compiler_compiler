@@ -9,27 +9,26 @@
 
 
 
-class  ExprLexer : public antlr4::Lexer {
+class  pascalLexer : public antlr4::Lexer {
 public:
   enum {
-    WRITE = 1, WRITELN = 2, AND = 3, ARRAY = 4, BEGIN = 5, BOOLEAN = 6, 
-    CASE = 7, CHAR = 8, CHR = 9, CONST = 10, DIV = 11, DO = 12, DOWNTO = 13, 
-    ELSE = 14, END = 15, FILE = 16, FOR = 17, FUNCTION = 18, GOTO = 19, 
-    IF = 20, IN = 21, INTEGER = 22, INTEGER_CONSTANT = 23, LABEL = 24, MOD = 25, 
-    NIL = 26, NOT = 27, OF = 28, OR = 29, PACKED = 30, PROCEDURE = 31, PROGRAM = 32, 
-    REAL = 33, RECORD = 34, REPEAT = 35, SET = 36, THEN = 37, TO = 38, TYPE = 39, 
-    UNTIL = 40, VAR = 41, WHILE = 42, WITH = 43, PLUS = 44, MINUS = 45, 
-    STAR = 46, SLASH = 47, ASSIGN = 48, COMMA = 49, SEMI = 50, COLON = 51, 
-    EQUAL = 52, NOT_EQUAL = 53, LT = 54, LE = 55, GE = 56, GT = 57, LPAREN = 58, 
-    RPAREN = 59, LBRACK = 60, LBRACK2 = 61, RBRACK = 62, RBRACK2 = 63, POINTER = 64, 
-    AT = 65, DOT = 66, DOTDOT = 67, LCURLY = 68, RCURLY = 69, UNIT = 70, 
-    INTERFACE = 71, USES = 72, STRING = 73, IMPLEMENTATION = 74, TRUE = 75, 
-    FALSE = 76, WS = 77, COMMENT_1 = 78, COMMENT_2 = 79, IDENTIFIER = 80, 
-    STRING_LITERAL = 81, NUM_INT = 82, NUM_REAL = 83
+    AND = 1, ARRAY = 2, BEGIN = 3, BOOLEAN = 4, CASE = 5, CHAR = 6, CHR = 7, 
+    CONST = 8, DIV = 9, DO = 10, DOWNTO = 11, ELSE = 12, END = 13, FILE = 14, 
+    FOR = 15, FUNCTION = 16, GOTO = 17, IF = 18, IN = 19, INTEGER = 20, 
+    LABEL = 21, MOD = 22, NIL = 23, NOT = 24, OF = 25, OR = 26, PACKED = 27, 
+    PROCEDURE = 28, PROGRAM = 29, REAL = 30, RECORD = 31, REPEAT = 32, SET = 33, 
+    THEN = 34, TO = 35, TYPE = 36, UNTIL = 37, VAR = 38, WHILE = 39, WITH = 40, 
+    PLUS = 41, MINUS = 42, STAR = 43, SLASH = 44, ASSIGN = 45, COMMA = 46, 
+    SEMI = 47, COLON = 48, EQUAL = 49, NOT_EQUAL = 50, LT = 51, LE = 52, 
+    GE = 53, GT = 54, LPAREN = 55, RPAREN = 56, LBRACK = 57, LBRACK2 = 58, 
+    RBRACK = 59, RBRACK2 = 60, POINTER = 61, AT = 62, DOT = 63, DOTDOT = 64, 
+    LCURLY = 65, RCURLY = 66, UNIT = 67, INTERFACE = 68, USES = 69, STRING = 70, 
+    IMPLEMENTATION = 71, TRUE = 72, FALSE = 73, WS = 74, COMMENT_1 = 75, 
+    COMMENT_2 = 76, IDENT = 77, STRING_LITERAL = 78, NUM_INT = 79, NUM_REAL = 80
   };
 
-  ExprLexer(antlr4::CharStream *input);
-  ~ExprLexer();
+  pascalLexer(antlr4::CharStream *input);
+  ~pascalLexer();
 
   virtual std::string getGrammarFileName() const override;
   virtual const std::vector<std::string>& getRuleNames() const override;
