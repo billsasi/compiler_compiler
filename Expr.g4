@@ -3,114 +3,114 @@ grammar Expr;
 
 
 identifier
-   : IDENT
+   : I D E N T
    ;
 
 WRITE
-    : 'WRITE'
+    : W R I T E
     ;
 
 WRITELN
-    : 'WRITELN'
+    : W R I T E L N
     ;
 
 AND
-   : 'AND'
+   : A N D
    ;
 
 
 ARRAY
-   : 'ARRAY'
+   : A R R A Y
    ;
 
 
 BEGIN
-   : 'BEGIN'
+   : B E G I N
    ;
 
 
 BOOLEAN
-   : 'BOOLEAN'
+   : B O O L E A N
    ;
 
 
 CASE
-   : 'CASE'
+   : C A S E
    ;
 
 
 CHAR
-   : 'CHAR'
+   : C H A R
    ;
 
 
 CHR
-   : 'CHR'
+   : C H R
    ;
 
 
 CONST
-   : 'CONST'
+   : C O N S T
    ;
 
 
 DIV
-   : 'DIV'
+   : D I V
    ;
 
 
 DO
-   : 'DO'
+   : D O 
    ;
 
 
 DOWNTO
-   : 'DOWNTO'
+   : D O W N T O
    ;
 
 
 ELSE
-   : 'ELSE'
+   : E L S E
    ;
 
 
 END
-   : 'END'
+   : E N D
    ;
 
 
 FILE
-   : 'FILE'
+   : F I L E
    ;
 
 
 FOR
-   : 'FOR'
+   : F O R
    ;
 
 
 FUNCTION
-   : 'FUNCTION'
+   : F U N C T I O N
    ;
 
 
 GOTO
-   : 'GOTO'
+   : G O T O
    ;
 
 
 IF
-   : 'IF'
+   : I F
    ;
 
 
 IN
-   : 'IN'
+   : I N
    ;
 
 
 INTEGER
-   : 'INTEGER'
+   : I N T E G E R
    ;
 
 INTEGER_CONSTANT
@@ -118,42 +118,42 @@ INTEGER_CONSTANT
     ;
 
 LABEL
-   : 'LABEL'
+   : L A B E L 
    ;
 
 
 MOD
-   : 'MOD'
+   : M O D
    ;
 
 
 NIL
-   : 'NIL'
+   : N I L 
    ;
 
 
 NOT
-   : 'NOT'
+   : N O T 
    ;
 
 
 OF
-   : 'OF'
+   : O F 
    ;
 
 
 OR
-   : 'OR'
+   : O R
    ;
 
 
 PACKED
-   : 'PACKED'
+   : P A C K E D
    ;
 
 
 PROCEDURE
-   : 'PROCEDURE'
+   : P R O C E D U R E
    ;
 
 
@@ -163,22 +163,22 @@ PROGRAM
 
 
 REAL
-   : 'REAL'
+   : R E A L 
    ;
 
 
 RECORD
-   : 'RECORD'
+   : R E C O R D
    ;
 
 
 REPEAT
-   : 'REPEAT'
+   : R E P E A T
    ;
 
 
 SET
-   : 'SET'
+   : S E T
    ;
 
 
