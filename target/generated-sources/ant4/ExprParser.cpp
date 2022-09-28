@@ -93,12 +93,12 @@ std::vector<std::string> ExprParser::_literalNames = {
   "'CASE'", "'CHAR'", "'CHR'", "'CONST'", "'DIV'", "'DO'", "'DOWNTO'", "'ELSE'", 
   "'END'", "'FILE'", "'FOR'", "'FUNCTION'", "'GOTO'", "'IF'", "'IN'", "'INTEGER'", 
   "", "'LABEL'", "'MOD'", "'NIL'", "'NOT'", "'OF'", "'OR'", "'PACKED'", 
-  "'PROCEDURE'", "'PROGRAM'", "'REAL'", "'RECORD'", "'REPEAT'", "'SET'", 
-  "'THEN'", "'TO'", "'TYPE'", "'UNTIL'", "'VAR'", "'WHILE'", "'WITH'", "'+'", 
-  "'-'", "'*'", "'/'", "':='", "','", "';'", "':'", "'='", "'<>'", "'<'", 
-  "'<='", "'>='", "'>'", "'('", "')'", "'['", "'(.'", "']'", "'.)'", "'^'", 
-  "'@'", "'.'", "'..'", "'{'", "'}'", "'UNIT'", "'INTERFACE'", "'USES'", 
-  "'STRING'", "'IMPLEMENTATION'", "'TRUE'", "'FALSE'"
+  "'PROCEDURE'", "", "'REAL'", "'RECORD'", "'REPEAT'", "'SET'", "'THEN'", 
+  "'TO'", "'TYPE'", "'UNTIL'", "'VAR'", "'WHILE'", "'WITH'", "'+'", "'-'", 
+  "'*'", "'/'", "':='", "','", "';'", "':'", "'='", "'<>'", "'<'", "'<='", 
+  "'>='", "'>'", "'('", "')'", "'['", "'(.'", "']'", "'.)'", "'^'", "'@'", 
+  "'.'", "'..'", "'{'", "'}'", "'UNIT'", "'INTERFACE'", "'USES'", "'STRING'", 
+  "'IMPLEMENTATION'", "'TRUE'", "'FALSE'"
 };
 
 std::vector<std::string> ExprParser::_symbolicNames = {

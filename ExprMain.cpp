@@ -9,6 +9,7 @@ using namespace antlrcpp;
 using namespace antlr4;
 using namespace std;
 
+
 int main(int argc, const char *args[])
 {
     ifstream source;
@@ -27,7 +28,8 @@ int main(int argc, const char *args[])
     tokens.fill();
     for (Token *token : tokens.getTokens())
     {
-        std::cout << token->toString() << std::endl;
+        cout << std::setw(10) << std::left << token->getText() << std::setfill(' ') << "  :  ";
+        cout << lexer.getVocabulary().getSymbolicName(token->getType()) << endl;
     }
 
     return 0;
