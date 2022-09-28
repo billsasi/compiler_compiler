@@ -1,0 +1,8 @@
+ProGram test;;
+BeGiN
+** / this := is a test 3.1415 .. 6
+hello ! var50 50var scanner.next '@test'
+
+end;
+
+end.

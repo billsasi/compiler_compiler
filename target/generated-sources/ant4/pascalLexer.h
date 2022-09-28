@@ -1,5 +1,5 @@
 
-// Generated from Expr.g4 by ANTLR 4.7.2
+// Generated from Pascal.g4 by ANTLR 4.7.2
 
 #pragma once
 
@@ -9,26 +9,28 @@
 
 
 
-class  pascalLexer : public antlr4::Lexer {
+class  PascalLexer : public antlr4::Lexer {
 public:
   enum {
-    AND = 1, ARRAY = 2, BEGIN = 3, BOOLEAN = 4, CASE = 5, CHAR = 6, CHR = 7, 
-    CONST = 8, DIV = 9, DO = 10, DOWNTO = 11, ELSE = 12, END = 13, FILE = 14, 
-    FOR = 15, FUNCTION = 16, GOTO = 17, IF = 18, IN = 19, INTEGER = 20, 
-    LABEL = 21, MOD = 22, NIL = 23, NOT = 24, OF = 25, OR = 26, PACKED = 27, 
-    PROCEDURE = 28, PROGRAM = 29, REAL = 30, RECORD = 31, REPEAT = 32, SET = 33, 
-    THEN = 34, TO = 35, TYPE = 36, UNTIL = 37, VAR = 38, WHILE = 39, WITH = 40, 
-    PLUS = 41, MINUS = 42, STAR = 43, SLASH = 44, ASSIGN = 45, COMMA = 46, 
-    SEMI = 47, COLON = 48, EQUAL = 49, NOT_EQUAL = 50, LT = 51, LE = 52, 
-    GE = 53, GT = 54, LPAREN = 55, RPAREN = 56, LBRACK = 57, LBRACK2 = 58, 
-    RBRACK = 59, RBRACK2 = 60, POINTER = 61, AT = 62, DOT = 63, DOTDOT = 64, 
-    LCURLY = 65, RCURLY = 66, UNIT = 67, INTERFACE = 68, USES = 69, STRING = 70, 
-    IMPLEMENTATION = 71, TRUE = 72, FALSE = 73, WS = 74, COMMENT_1 = 75, 
-    COMMENT_2 = 76, IDENT = 77, STRING_LITERAL = 78, NUM_INT = 79, NUM_REAL = 80
+    AND = 1, ARRAY = 2, ASM = 3, BEGIN = 4, BREAK = 5, CASE = 6, CONST = 7, 
+    CONSTRUCTOR = 8, CONTINUE = 9, DESTRUCTOR = 10, DIV = 11, DO = 12, DOWNTO = 13, 
+    ELSE = 14, END = 15, FALSE = 16, FILE = 17, FOR = 18, FUNCTION = 19, 
+    GOTO = 20, IF = 21, IMPLEMENTATION = 22, IN = 23, INLINE = 24, INTERFACE = 25, 
+    LABEL = 26, MOD = 27, NIL = 28, NOT = 29, OBJECT = 30, OF = 31, ON = 32, 
+    OPERATOR = 33, OR = 34, PACKED = 35, PROCEDURE = 36, PROGRAM = 37, RECORD = 38, 
+    REPEAT = 39, SET = 40, SHL = 41, SHR = 42, STRING = 43, THEN = 44, TO = 45, 
+    TRUE = 46, TYPE = 47, UNIT = 48, UNTIL = 49, USES = 50, VAR = 51, WHILE = 52, 
+    WITH = 53, XOR = 54, IDENTIFIER = 55, INTEGER = 56, REAL = 57, STRING_LITERAL = 58, 
+    PLUSOP = 59, MINUSOP = 60, MULTOP = 61, DIVOP = 62, ASSIGN = 63, EQUAL = 64, 
+    NE = 65, LTEQ = 66, GTEQ = 67, LT = 68, GT = 69, PLUSEQUAL = 70, MINUSEQUAL = 71, 
+    MULTEQUAL = 72, DIVEQUAL = 73, CARAT = 74, SEMICOLON = 75, COMMA = 76, 
+    LPAREN = 77, RPAREN = 78, LBRACKET = 79, RBRACKET = 80, LBRACE = 81, 
+    RBRACE = 82, LCOMMENT = 83, RCOMMENT = 84, DOT_DOT = 85, PERIOD = 86, 
+    COLON = 87, WS = 88
   };
 
-  pascalLexer(antlr4::CharStream *input);
-  ~pascalLexer();
+  PascalLexer(antlr4::CharStream *input);
+  ~PascalLexer();
 
   virtual std::string getGrammarFileName() const override;
   virtual const std::vector<std::string>& getRuleNames() const override;
