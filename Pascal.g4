@@ -59,7 +59,7 @@ WHILE : W H I L E  ;
 WITH : W I T H  ;
 XOR : X O R  ;
 
-IDENTIFIER : [a-zA-Z] ([a-zA-Z0-9] | '_' )*;
+IDENTIFIER : [a-zA-Z_] ([a-zA-Z0-9] | '_' )*;
 INTEGER : [0-9]+;
 REAL : [0-9]+ '.' [0-9]+;
 STRING_LITERAL : '\'' .*? '\'' ;

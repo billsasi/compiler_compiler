@@ -4,5 +4,5 @@ BeGiN
 hello ! var50 50var scanner.next '@test'
 
 end;
-
+__test _hi 
 end.

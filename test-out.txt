@@ -24,5 +24,7 @@ IDENTIFIER            :  next
 STRING_LITERAL        :  '@test'
 END                   :  end
 SEMICOLON             :  ;
+IDENTIFIER            :  __test
+IDENTIFIER            :  _hi
 END                   :  end
 PERIOD                :  .
