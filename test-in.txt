@@ -1,8 +1,13 @@
-ProGram test;;
+
+
+program test;
+
 BeGiN
-** / this := is a test 3.1415 .. 6
-hello ! var50 50var scanner.next '@test'
+  x := 5;
+  for i:=9 downto 0 do
+    some_var := some_var + 1;
+
 
 end;
-__test _hi 
-end.
+
+.

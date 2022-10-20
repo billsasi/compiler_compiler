@@ -1,0 +1,416 @@
+program
+   :  PROGRAM identifier SEMICOLON block DOT 
+   ;
+
+identifier
+   :  IDENTIFIER
+   ;
+
+letterOrDigit
+   :  letter | digit
+   ;
+
+block
+   :  labelDeclarationPart constantDefinitionPart typeDefinitionPart variableDeclarationPart procedureAndFunctionDeclarationPart statementPart
+   ;
+
+labelDeclarationPart
+   :  empty | LABEL label (COMMA label)* SEMICOLON
+   ;
+
+label
+   :  unsignedInteger
+   ;
+
+constantDefinitionPart
+   :  empty | CONST constantDefinition ( SEMICOLON constantDefinition)* SEMICOLON 
+   ;
+
+unsignedNumber
+   :  unsignedInteger | unsignedReal 
+   ;
+
+unsignedInteger
+   :  INTEGER
+   ;
+
+unsignedReal
+   :  unsignedInteger DOT unsignedInteger | unsignedInteger DOT unsignedInteger E scaleFactor| unsignedInteger E scaleFactor
+   ;
+
+scaleFactor
+   :  unsignedInteger | sign unsignedInteger 
+   ;
+
+sign
+   :  + | -
+   ;
+
+constantIdentifier
+   :  identifier
+   ;
+
+string
+   :  'character (character)*'
+   ;
+
+typeDefinitionPart
+   :  empty | TYPE typeDefinition (SEMICOLON typeDefinition)* SEMICOLON 
+   ;
+
+typeDefinition
+   :  identifier EQUAL type
+   ;
+
+type
+   :  simpleType | structuredType | pointerType
+   ;
+
+simpleType
+   :  scalarType | subrangeType | typeIdentifier
+   ;
+
+scalarType
+   :  (identifier (COMMAidentifier)*)
+   ;
+
+subrangeType
+   :  constant DOT_DOT constant
+   ;
+
+typeIdentifier
+   :  identifier
+   ;
+
+structuredType
+   :  arrayType | recordType | setType | fileType 
+   ;
+
+arrayType
+   :  ARRAY LBRACKET indexType(COMMA indexType)* RBRACKET OF componentType 
+   ;
+
+indexType
+   :  simpleType
+   ;
+
+componentType
+   :  type
+   ;
+
+recordType
+   :  RECORD fieldList END
+   ;
+
+fieldList
+   :  fixedPart | fixedPart SEMICOLON variantPart | variantPart
+   ;
+
+fixedPart
+   :  recordSection (SEMICOLON recordSection)*
+   ;
+
+recordSection
+   :  fieldIdentifier (COMMA fieldIdentifier)* COLON type | empty
+   ;
+
+variantType
+   :  CASE tagField typeIdentifier OF variant ( SEMICOLON variant)*
+   ;
+
+tagField
+   :  fieldIdentifier COLON | empty
+   ;
+
+variant
+   :  caseLabelList COLON ( fieldList ) | empty
+   ;
+
+caseLabelList
+   :  caseLabel (COMMA caseLabel)*
+   ;
+
+caseLabel
+   :  constant
+   ;
+
+setType
+   : SET OF baseType
+   ;
+
+baseType
+   :  simpleType
+   ;
+
+fileType
+   :  FILE OF type
+   ;
+
+pointerType
+   :  typeIdentifier
+   ;
+
+variableDeclarationPart
+   :  empty | VAR variableDeclaration (SEMICOLON variableDeclaration)* SEMICOLON 
+   ;
+
+variableDeclaration
+   :  identifier (COMMAidentifier)* COLON type
+   ;
+
+procedureAndFunctionDeclarationPart
+   :  (procedureOrFunctionDeclaration SEMICOLON)* 
+   ;
+
+procedureOrFunctionDeclaration
+   :  procedureDeclaration | functionDeclaration 
+   ;
+
+procedureDeclaration
+   :  procedureHeading block
+   ;
+
+procedureHeading
+   :  PROCEDURE identifier SEMICOLON | PROCEDURE identifier LPAREN formalParameterSection (SEMICOLON formalParameterSection)* RPAREN SEMICOLON
+   ;
+
+formalParameterSection
+   :  parameterGroup | VAR parameterGroup | FUNCTION parameterGroup | PROCEDURE identifier ( COMMA identifier)*
+   ;
+
+parameterGroup
+   :  identifier (COMMA identifier)* COLON typeIdentifier
+   ;
+
+functionDeclaration
+   :  functionHeading block
+   ;
+
+functionHeading
+   :  FUNCTION identifier COLON resultType SEMICOLON | 
+      FUNCTION identifier LPAREN formalParameterSection (SEMICOLON formalParameterSection)* RPAREN resultType SEMICOLON
+   ;
+
+resultType
+   :  typeIdentifier
+   ;
+
+statementPart
+   :  compundStatement
+   ;
+
+statement
+   :  unlabelledStatement | label COLON unlabelledStatement
+   ;
+
+unlabelledStatement
+   :  simpleStatement | structuredStatement
+   ;
+
+simpleStatement
+   :  assignmentStatement | procedureStatement | goToStatement | emptyStatement
+   ;
+
+assignmentStatement
+   :  variable ASSIGN expression | functionIdentifier ASSIGN expression
+   ;
+
+functionIdentifier
+   :  expression
+   ;
+
+variable
+   :  entireVariable | componentVariable | referencedVariable
+   ;
+
+entireVariable
+   :  variableIdentifier
+   ;
+
+variableIdentifier
+   :  identifier
+   ;
+
+componentVariable
+   :  indexedVariable | fieldDesignator | fileBuffer 
+   ;
+
+indexedVariable
+   :  arrayVariable LBRACE expression (COMMA expression)* RBRACE
+   ;
+
+arrayVariable
+   :  variable
+   ;
+
+fieldDesignator
+   :  recordVariable DOT fieldIdentifier
+   ;
+
+recordVariable
+   :  variable
+   ;
+
+fieldIdentifier
+   :  identifier
+   ;
+
+fileBuffer
+   :  fileVariable
+   ;
+
+fileVariable
+   :  variable
+   ;
+
+referencedVariable
+   :  pointerVariable
+   ;
+
+pointerVariable
+   :  variable
+   ;
+
+expression
+   :  simpleExpression | simpleExpression relationalOperator simpleExpression
+   ;
+
+relationalOperator
+   : '=' | '<>' | '<=' | '>=' | '<' | '>' | IN
+   ;
+
+simpleExpression
+   :  term | sign term| simpleExpression addingOperator term
+   ;
+
+addingOperator
+   :  '+' | '-' | OR
+   ;
+
+term
+   :  factor | term multiplyingOperator factor
+   ;
+
+multiplyingOperator
+   :  '*' | '/' | DIV | MOD | AND
+   ;
+
+factor
+   :  variable | unsignedConstant | LPAREN expression RPAREN | functionDesignator | set | NOT factor
+   ;
+
+unsignedConstant
+   :  unsignedNumber | string | constantIdentifier 
+   ;
+
+functionDesignator
+   :  functionIdentifier | functionIdentifierActualParameter (COMMA actualParameter)* )
+   ;
+
+functionIdentifier
+   :  identifier
+   ;
+
+set
+   :  LBRACKET elementList RBRACKET
+   ;
+
+elementList
+   :  element (COMMA element )* | empty
+   ;
+
+element
+   :  expression | expression DOT_DOT expression
+   ;
+
+procedureStatement
+   :  procedureIdentifier | procedureIdentifier (actualParameter (COMMA actualParameter )*)
+   ;
+
+procedureIdentifier
+   :  identifier
+   ;
+
+actualParameter
+   :  expression | variable | procedureIdentifier | functionIdentifier
+   ;
+
+goToStatement
+   :  GOTO label
+   ;
+
+emptyStatement
+   :  empty
+   ;
+
+empty
+   : 
+   ;
+
+structuredStatement
+   :  compoundStatement | conditionalStatement | repetitiveStatement | withStatement
+   ;
+
+compoundStatement
+   :  BEGIN statement (SEMICOLON statement)* END SEMICOLON
+   ;
+
+conditionalStatement
+   :  ifStatement | caseStatement
+   ;
+
+ifStatement
+   :  IF expression THEN statement | IF expression THEN statement ELSE statement 
+   ;
+
+caseStatement
+   :  CASE expression OF caseListElement (SEMICOLON caseListElement )* END
+   ;
+
+caseListElement
+   :  caseLabelList COLON statement | empty
+   ;
+
+caseLabelList
+   :  caseLabel (COMMA caseLabel )*
+   ;
+
+repetitiveStatement
+   :  whileStatement | repeatStatemant | forStatement 
+   ;
+
+whileStatement
+   :  WHILE expression DO statement
+   ;
+
+repeatStatement
+   :  REPEAT statement (SEMICOLON statement)* UNTIL expression
+   ;
+
+forStatement
+   :  FOR controlVariable ASSIGN forList DO statement
+   ;
+
+controlVariable
+   :  identifier
+   ;
+
+forList
+   :  initialValue TO finalValue | initialValue DOWNTO finalValue 
+   ;
+
+initialValue
+   :  expression
+   ;
+
+finalValue
+   :  expression
+   ;
+
+withStatement
+   :  WITH recordVariableList DO statement
+   ;
+
+recordVariableList
+   :  recordVariable (COMMA recordVariable)*
+   ;

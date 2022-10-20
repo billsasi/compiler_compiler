@@ -3,11 +3,11 @@
 
 #include "antlr4-runtime.h"
 #include "PascalLexer.h"
+#include "PascalParser.h"
 
 using namespace antlrcpp;
 using namespace antlr4;
 using namespace std;
-
 
 int main(int argc, const char *args[])
 {
@@ -21,29 +21,28 @@ int main(int argc, const char *args[])
     // Create a lexer which scans the input stream
     // to create a token stream.
     PascalLexer lexer(&input);
+    CommonTokenStream tokens(&lexer);
 
     // Print the token stream.
     cout << "Tokens:" << endl;
-    
-    antlr4::dfa::Vocabulary& vocab = lexer.getVocabulary();
-    Token *token = lexer.nextToken().get();
-    int type = token->getType();
-    string typestr = vocab.getSymbolicName(type);
-    string text = token->getText();
-    
-    while (type != Token::EOF)
+    tokens.fill();
+    for (Token *token : tokens.getTokens())
     {
-        cout << std::setw(20) << std::left << typestr << std::setfill(' ') << "  :  ";
-        cout << text << endl;
-        // print to file
-        out << std::setw(20) << std::left << typestr << std::setfill(' ') << "  :  ";
-        out << text << endl;
-
-        token = lexer.nextToken().get();
-        type = token->getType();
-        typestr = vocab.getSymbolicName(type);
-        text = token->getText();
+        cout << setw(20) << left << lexer.getVocabulary().getSymbolicName(token->getType()) << " : ";
+        cout << token->getText() << endl;
+        out << setw(20) << left << lexer.getVocabulary().getSymbolicName(token->getType()) << " : ";
+        out << token->getText() << endl;
     }
+
+    // Create a parser which parses the token stream
+    // to create a parse tree.
+    PascalParser parser(&tokens);
+    tree::ParseTree *tree = parser.program();
+
+    // Print the parse tree in Lisp format.
+    cout << endl << "Parse tree (Lisp format):" << endl;
+    std::cout << tree->toStringTree(&parser) << endl;
+
 
     return 0;
 }

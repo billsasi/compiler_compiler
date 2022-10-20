@@ -1,0 +1,13 @@
+
+
+program test;
+
+BeGiN
+  x := 5;
+  for i:=9 downto 0 do
+    some_var := some_var + 1;
+
+
+end;
+
+.

@@ -10,7 +10,7 @@ OUT = prog.out
 ANTLR_SOURCES = target/generated-sources/ant4/*.cpp
 SOURCES = $(ANTLR_SOURCES) $(PROG)
 compile:	
-	g++ -o $(OUT) -std=c++17 -I $(ANTLR_RUNTIME_INCLUDES) -I $(ANTLR_INCLUDES) -I $(PROJECTPATH) -w $(SOURCES) -L$(LIB_PATH) -l$(LIB)
+	g++ -g -o $(OUT) -std=c++17 -I $(ANTLR_RUNTIME_INCLUDES) -I $(ANTLR_INCLUDES) -I $(PROJECTPATH) -w $(SOURCES) -L$(LIB_PATH) -l$(LIB)
 antlr:
 	$(antlr4) -o ./target/generated-sources/ant4 -no-listener -visitor -encoding UTF-8 -Dlanguage=Cpp $(ANTLRFILE)
 clean:
