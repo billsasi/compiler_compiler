@@ -50,7 +50,7 @@ scaleFactor
    ;
 
 sign
-   :  '+' | '-'
+   :  PLUSOP | MINUSOP
    ;
 
 constantIdentifier
@@ -275,7 +275,7 @@ expression
    ;
 
 relationalOperator
-   : '=' | '<>' | '<=' | '>=' | '<' | '>' | IN
+   : EQUAL | NE | LTEQ | GTEQ | LT | GT | IN
    ;
 
 simpleExpression
@@ -283,7 +283,7 @@ simpleExpression
    ;
 
 addingOperator
-   :  '+' | '-' | OR
+   :  PLUSOP | MINUSOP | OR
    ;
 
 term
@@ -291,7 +291,7 @@ term
    ;
 
 multiplyingOperator
-   :  '*' | '/' | DIV | MOD | AND
+   :  MULTOP | DIVOP | DIV | MOD | AND
    ;
 
 factor
