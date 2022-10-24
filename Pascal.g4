@@ -1,11 +1,15 @@
 grammar Pascal;
 
 program
-   :  PROGRAM identifier SEMICOLON block PERIOD
+   :  PROGRAM IDENTIFIER programHeading? SEMICOLON block PERIOD
    ;
 
-identifier
-   :  IDENTIFIER
+programHeading
+   :  LPAREN identifierList RPAREN
+   ;   
+
+identifierList
+   :  IDENTIFIER (COMMA IDENTIFIER)*
    ;
 
 block
@@ -26,7 +30,7 @@ constantDefinitionPart
 
 
 constantDefinition
-   : identifier EQUAL constant
+   : IDENTIFIER EQUAL constant
    ;
 
 constant
@@ -42,7 +46,7 @@ unsignedInteger
    ;
 
 unsignedReal
-   :  unsignedInteger PERIOD unsignedInteger | unsignedInteger PERIOD unsignedInteger 'E' scaleFactor| unsignedInteger 'E' scaleFactor
+   :  unsignedInteger PERIOD unsignedInteger | unsignedInteger PERIOD unsignedInteger ('e'|'E') scaleFactor| unsignedInteger ('e'|'E') scaleFactor
    ;
 
 scaleFactor
@@ -54,11 +58,11 @@ sign
    ;
 
 constantIdentifier
-   :  identifier
+   : IDENTIFIER
    ;
 
 string
-   :  'character (character)*'
+   : STRING_LITERAL
    ;
 
 typeDefinitionPart
@@ -66,7 +70,7 @@ typeDefinitionPart
    ;
 
 typeDefinition
-   :  identifier EQUAL type
+   : IDENTIFIER EQUAL type
    ;
 
 type
@@ -78,7 +82,7 @@ simpleType
    ;
 
 scalarType
-   :  (identifier (COMMA identifier)*)
+   :  (IDENTIFIER (COMMA IDENTIFIER)*)
    ;
 
 subrangeType
@@ -86,7 +90,7 @@ subrangeType
    ;
 
 typeIdentifier
-   :  identifier
+   :  IDENTIFIER
    ;
 
 structuredType
@@ -158,7 +162,7 @@ variableDeclarationPart
    ;
 
 variableDeclaration
-   :  identifier (COMMA identifier)* COLON type
+   : IDENTIFIER (COMMA IDENTIFIER)* COLON type
    ;
 
 procedureAndFunctionDeclarationPart
@@ -174,15 +178,15 @@ procedureDeclaration
    ;
 
 procedureHeading
-   :  PROCEDURE identifier SEMICOLON | PROCEDURE identifier LPAREN formalParameterSection (SEMICOLON formalParameterSection)* RPAREN SEMICOLON
+   :  PROCEDURE IDENTIFIER SEMICOLON | PROCEDURE IDENTIFIER LPAREN formalParameterSection (SEMICOLON formalParameterSection)* RPAREN SEMICOLON
    ;
 
 formalParameterSection
-   :  parameterGroup | VAR parameterGroup | FUNCTION parameterGroup | PROCEDURE identifier ( COMMA identifier)*
+   :  parameterGroup | VAR parameterGroup | FUNCTION parameterGroup | PROCEDURE IDENTIFIER ( COMMA IDENTIFIER)*
    ;
 
 parameterGroup
-   :  identifier (COMMA identifier)* COLON typeIdentifier
+   :  IDENTIFIER (COMMA IDENTIFIER)* COLON typeIdentifier
    ;
 
 functionDeclaration
@@ -190,8 +194,8 @@ functionDeclaration
    ;
 
 functionHeading
-   :  FUNCTION identifier COLON resultType SEMICOLON | 
-      FUNCTION identifier LPAREN formalParameterSection (SEMICOLON formalParameterSection)* RPAREN resultType SEMICOLON
+   :  FUNCTION IDENTIFIER COLON resultType SEMICOLON | 
+      FUNCTION IDENTIFIER LPAREN formalParameterSection (SEMICOLON formalParameterSection)* RPAREN resultType SEMICOLON
    ;
 
 resultType
@@ -227,7 +231,7 @@ entireVariable
    ;
 
 variableIdentifier
-   :  identifier
+   :  IDENTIFIER
    ;
 
 componentVariable
@@ -239,7 +243,7 @@ indexedVariable
    ;
 
 arrayVariable
-   :  identifier
+   :  IDENTIFIER
    ;
 
 fieldDesignator
@@ -247,19 +251,19 @@ fieldDesignator
    ;
 
 recordVariable
-   :  identifier
+   :  IDENTIFIER
    ;
 
 fieldIdentifier
-   :  identifier
+   :  IDENTIFIER
    ;
 
 fileBuffer
-   :  identifier
+   :  IDENTIFIER
    ;
 
 fileVariable
-   :  identifier
+   :  IDENTIFIER
    ;
 
 referencedVariable
@@ -267,7 +271,7 @@ referencedVariable
    ;
 
 pointerVariable
-   :  identifier
+   :  IDENTIFIER
    ;
 
 expression
@@ -307,7 +311,7 @@ functionDesignator
    ;
 
 functionIdentifier
-   :  identifier
+   :  IDENTIFIER
    ;
 
 set
@@ -323,11 +327,11 @@ element
    ;
 
 procedureStatement
-   :  procedureIdentifier | procedureIdentifier (actualParameter (COMMA actualParameter )*)
+   :  procedureIdentifier | procedureIdentifier LPAREN actualParameter (COMMA actualParameter )* RPAREN
    ;
 
 procedureIdentifier
-   :  identifier
+   :  IDENTIFIER
    ;
 
 actualParameter
@@ -391,7 +395,7 @@ forStatement
    ;
 
 controlVariable
-   :  identifier
+   :  IDENTIFIER
    ;
 
 forList

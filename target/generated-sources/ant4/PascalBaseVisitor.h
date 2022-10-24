@@ -19,7 +19,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitIdentifier(PascalParser::IdentifierContext *ctx) override {
+  virtual antlrcpp::Any visitProgramHeading(PascalParser::ProgramHeadingContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitIdentifierList(PascalParser::IdentifierListContext *ctx) override {
     return visitChildren(ctx);
   }
 

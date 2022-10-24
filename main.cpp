@@ -4,6 +4,7 @@
 #include "antlr4-runtime.h"
 #include "PascalLexer.h"
 #include "PascalParser.h"
+#include "SymTab.hpp"
 
 using namespace antlrcpp;
 using namespace antlr4;
@@ -22,16 +23,17 @@ int main(int argc, const char *args[])
     // to create a token stream.
     PascalLexer lexer(&input);
     CommonTokenStream tokens(&lexer);
+    SymTab symTab;
 
     // Print the token stream.
     cout << "Tokens:" << endl;
     tokens.fill();
     for (Token *token : tokens.getTokens())
     {
-        cout << setw(20) << left << lexer.getVocabulary().getSymbolicName(token->getType()) << " : ";
-        cout << token->getText() << endl;
-        out << setw(20) << left << lexer.getVocabulary().getSymbolicName(token->getType()) << " : ";
-        out << token->getText() << endl;
+        if ( lexer.getVocabulary().getSymbolicName(token->getType()) == "IDENTIFIER" )
+        {
+            symTab.insert(token->getText());
+        }
     }
 
     // Create a parser which parses the token stream
@@ -41,8 +43,14 @@ int main(int argc, const char *args[])
 
     // Print the parse tree in Lisp format.
     cout << endl << "Parse tree (Lisp format):" << endl;
+    out << endl << "Parse tree (Lisp format):" << endl;
     std::cout << tree->toStringTree(&parser) << endl;
+    out << tree->toStringTree(&parser) << endl;
 
+    std::cout << "\nSYMBOL TABLE" << endl;
+    out << "\nSYMBOL TABLE" << endl;
+    symTab.output(out);
+    symTab.output();
 
     return 0;
 }

@@ -1,25 +1,13 @@
-PROGRAM              : program
-IDENTIFIER           : test
-SEMICOLON            : ;
-BEGIN                : BeGiN
-IDENTIFIER           : x
-ASSIGN               : :=
-INTEGER              : 5
-SEMICOLON            : ;
-FOR                  : for
-IDENTIFIER           : i
-ASSIGN               : :=
-INTEGER              : 9
-DOWNTO               : downto
-INTEGER              : 0
-DO                   : do
-IDENTIFIER           : some_var
-ASSIGN               : :=
-IDENTIFIER           : some_var
-PLUSOP               : +
-INTEGER              : 1
-SEMICOLON            : ;
-END                  : end
-SEMICOLON            : ;
-PERIOD               : .
-EOF                  : <EOF>
+
+Parse tree (Lisp format):
+(program program test (programHeading ( (identifierList output) )) ; (block (labelDeclarationPart empty) (constantDefinitionPart empty) (typeDefinitionPart empty) (variableDeclarationPart empty) procedureAndFunctionDeclarationPart (statementPart (compoundStatement begin (statement (unlabelledStatement (simpleStatement (assignmentStatement (variable (entireVariable (variableIdentifier i))) := (expression (simpleExpression (term (factor (unsignedConstant (unsignedNumber (unsignedInteger 5))))))))))) ; (statement (unlabelledStatement (simpleStatement (assignmentStatement (variable (entireVariable (variableIdentifier test_var))) := (expression (simpleExpression (simpleExpression (term (factor (variable (entireVariable (variableIdentifier test_var)))))) (addingOperator +) (term (factor (unsignedConstant (unsignedNumber (unsignedInteger 1))))))))))) ; (statement (unlabelledStatement (simpleStatement (assignmentStatement (variable (entireVariable (variableIdentifier j))) := (expression (simpleExpression (simpleExpression (term (factor (variable (entireVariable (variableIdentifier j)))))) (addingOperator -) (term (factor (unsignedConstant (unsignedNumber (unsignedInteger 1))))))))))) ; (statement (unlabelledStatement (structuredStatement (repetitiveStatement (forStatement FOR (controlVariable t) := (forList (initialValue (expression (simpleExpression (term (factor (unsignedConstant (unsignedNumber (unsignedInteger 6)))))))) downto (finalValue (expression (simpleExpression (term (factor (unsignedConstant (unsignedNumber (unsignedInteger 2))))))))) do (statement (unlabelledStatement (structuredStatement (compoundStatement begin (statement (unlabelledStatement (simpleStatement (procedureStatement (procedureIdentifier writeln) ( (actualParameter (expression (simpleExpression (term (factor (unsignedConstant (string 'this is a test'))))))) ))))) ; (statement (unlabelledStatement (simpleStatement (procedureStatement (procedureIdentifier write) ( (actualParameter (expression (simpleExpression (term (factor (unsignedConstant (string 'hi'))))))) ))))) ; (statement (unlabelledStatement (simpleStatement (emptyStatement empty)))) end ;))))))))) end ;))) .)
+
+SYMBOL TABLE
+writeln int
+i int
+output int
+write int
+j int
+t int
+test_var int
+test int
