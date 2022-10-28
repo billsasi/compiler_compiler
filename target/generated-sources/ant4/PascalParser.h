@@ -359,10 +359,9 @@ public:
   public:
     UnsignedRealContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    std::vector<UnsignedIntegerContext *> unsignedInteger();
-    UnsignedIntegerContext* unsignedInteger(size_t i);
-    antlr4::tree::TerminalNode *PERIOD();
+    antlr4::tree::TerminalNode *REAL();
     ScaleFactorContext *scaleFactor();
+    UnsignedIntegerContext *unsignedInteger();
 
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;

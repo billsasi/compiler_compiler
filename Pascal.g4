@@ -46,11 +46,11 @@ unsignedInteger
    ;
 
 unsignedReal
-   :  unsignedInteger PERIOD unsignedInteger | unsignedInteger PERIOD unsignedInteger ('e'|'E') scaleFactor| unsignedInteger ('e'|'E') scaleFactor
+   : REAL (('e'|'E') scaleFactor)? | unsignedInteger ('e'|'E') scaleFactor
    ;
 
 scaleFactor
-   :  unsignedInteger | sign unsignedInteger 
+   : sign? unsignedInteger 
    ;
 
 sign
@@ -355,7 +355,7 @@ structuredStatement
    ;
 
 compoundStatement
-   :  BEGIN statement (SEMICOLON statement)* END SEMICOLON
+   :  BEGIN statement (SEMICOLON statement)* END 
    ;
 
 conditionalStatement
