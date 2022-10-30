@@ -8,7 +8,7 @@
 #ifndef TYPECHECKER_H_
 #define TYPECHECKER_H_
 
-#include "intermediate/type/Typespec.h"
+#include "Typespec.h"
 
 namespace intermediate { namespace type {
 

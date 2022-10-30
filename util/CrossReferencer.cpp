@@ -12,11 +12,11 @@
 #include "antlr4-runtime.h"
 
 #include "CrossReferencer.h"
-#include "intermediate/type/Typespec.h"
-#include "intermediate/symtab/SymtabStack.h"
-#include "intermediate/symtab/Symtab.h"
-#include "intermediate/symtab/SymtabEntry.h"
-#include "intermediate/symtab/Predefined.h"
+#include "../type/Typespec.h"
+#include "../symtab/SymtabStack.h"
+#include "../symtab/Symtab.h"
+#include "../symtab/SymtabEntry.h"
+#include "../symtab/Predefined.h"
 
 namespace intermediate { namespace util {
 

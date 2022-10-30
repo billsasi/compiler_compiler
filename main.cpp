@@ -4,7 +4,6 @@
 #include "antlr4-runtime.h"
 #include "PascalLexer.h"
 #include "PascalParser.h"
-#include "./symboltable/SymTab.hpp"
 
 using namespace antlrcpp;
 using namespace antlr4;
@@ -23,17 +22,9 @@ int main(int argc, const char *args[])
     // to create a token stream.
     PascalLexer lexer(&input);
     CommonTokenStream tokens(&lexer);
-    SymTab symTab;
 
     tokens.fill();
-    for (Token *token : tokens.getTokens())
-    {
-        if ( lexer.getVocabulary().getSymbolicName(token->getType()) == "IDENTIFIER" )
-        {
-            symTab.insert(token->getText());
-        }
-    }
-
+    
     // Create a parser which parses the token stream
     // to create a parse tree.
     PascalParser parser(&tokens);
@@ -48,8 +39,6 @@ int main(int argc, const char *args[])
     // Print the symbol table.
     std::cout << "\nSYMBOL TABLE" << endl;
     out << "\nSYMBOL TABLE" << endl;
-    symTab.output(out);
-    symTab.output();
 
     return 0;
 }
