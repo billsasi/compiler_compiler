@@ -5,8 +5,8 @@
 
 
 #include "antlr4-runtime.h"
-#include "../symtab/SymtabStack.h"
-
+#include "../intermediate/symtab/SymtabStack.h"
+#include "../intermediate/symtab/Predefined.h"
 
 
 class  PascalParser : public antlr4::Parser {
@@ -1809,6 +1809,7 @@ private:
   static antlr4::dfa::Vocabulary _vocabulary;
   static antlr4::atn::ATN _atn;
   static std::vector<uint16_t> _serializedATN;
+  intermediate::symtab::SymtabStack *symtabStack = nullptr;
 
 
   struct Initializer {

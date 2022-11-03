@@ -13,9 +13,9 @@
 
 #include "antlr4-runtime.h"
 
-#include "../type/Typespec.h"
-#include "../symtab/Symtab.h"
-#include "../symtab/SymtabStack.h"
+#include "intermediate/type/Typespec.h"
+#include "intermediate/symtab/Symtab.h"
+#include "intermediate/symtab/SymtabStack.h"
 
 namespace intermediate { namespace util {
 

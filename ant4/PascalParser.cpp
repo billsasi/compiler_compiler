@@ -12,6 +12,8 @@ using namespace antlr4;
 
 PascalParser::PascalParser(TokenStream *input) : Parser(input) {
   _interpreter = new atn::ParserATNSimulator(this, _atn, _decisionToDFA, _sharedContextCache);
+  symtabStack = new intermediate::symtab::SymtabStack();
+  intermediate::symtab::Predefined::initialize(symtabStack);
 }
 
 PascalParser::~PascalParser() {
@@ -88,6 +90,7 @@ PascalParser::ProgramContext* PascalParser::program() {
     match(PascalParser::PROGRAM);
     setState(209);
     match(PascalParser::IDENTIFIER);
+    auto node = _localctx->IDENTIFIER()->getText();
     setState(211);
     _errHandler->sync(this);
 

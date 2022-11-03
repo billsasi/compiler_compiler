@@ -8,10 +8,10 @@ LIB = antlr4-runtime
 PROG = main.cpp
 OUT = prog.out
 ANTLR_SOURCES = ant4/*.cpp
-SOURCES = symtab/*.cpp type/*.cpp util/*.cpp $(ANTLR_SOURCES) $(PROG) 
+SOURCES = intermediate/symtab/*.cpp intermediate/type/*.cpp intermediate/util/*.cpp $(ANTLR_SOURCES) $(PROG) 
 compile:	
 	g++ -g -o $(OUT) -std=c++17 -I $(ANTLR_RUNTIME_INCLUDES) -I $(ANTLR_INCLUDES) -I $(PROJECTPATH) \
-		-I $(PROJECTPATH)/symtab -I $(PROJECTPATH)/type -I $(PROJECTPATH)/util \
+		-I $(PROJECTPATH)/intermediate \
 		-w $(SOURCES) -L$(LIB_PATH) -l$(LIB)
 antlr:
 	$(antlr4) -o ./ant4 -no-listener -visitor -encoding UTF-8 -Dlanguage=Cpp $(ANTLRFILE)

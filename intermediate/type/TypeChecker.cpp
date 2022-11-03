@@ -5,7 +5,7 @@
  *
  * For instructional purposes only.  No warranties.
  */
-#include "../symtab/Predefined.h"
+#include "intermediate/symtab/Predefined.h"
 #include "TypeChecker.h"
 #include "Typespec.h"
 

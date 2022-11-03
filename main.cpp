@@ -28,7 +28,7 @@ int main(int argc, const char *args[])
     // Create a parser which parses the token stream
     // to create a parse tree.
     PascalParser parser(&tokens);
-    tree::ParseTree *tree = parser.program();
+    tree::ParseTree *tree = parser.program(); 
 
     // Print the parse tree in Lisp format.
     cout << endl << "Parse tree (Lisp format):" << endl;
