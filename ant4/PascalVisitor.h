@@ -25,6 +25,8 @@ public:
 
     virtual antlrcpp::Any visitIdentifierList(PascalParser::IdentifierListContext *context) = 0;
 
+    virtual antlrcpp::Any visitIdentifier(PascalParser::IdentifierContext *context) = 0;
+
     virtual antlrcpp::Any visitBlock(PascalParser::BlockContext *context) = 0;
 
     virtual antlrcpp::Any visitLabelDeclarationPart(PascalParser::LabelDeclarationPartContext *context) = 0;

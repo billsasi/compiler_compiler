@@ -27,6 +27,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitIdentifier(PascalParser::IdentifierContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitBlock(PascalParser::BlockContext *ctx) override {
     return visitChildren(ctx);
   }

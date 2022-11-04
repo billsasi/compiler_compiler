@@ -1,7 +1,7 @@
 grammar Pascal;
 
 program
-   :  PROGRAM IDENTIFIER programHeading? SEMICOLON block PERIOD
+   :  PROGRAM identifier programHeading? SEMICOLON block PERIOD
    ;
 
 programHeading
@@ -9,7 +9,11 @@ programHeading
    ;   
 
 identifierList
-   :  IDENTIFIER (COMMA IDENTIFIER)*
+   :  identifier (COMMA identifier)*
+   ;
+
+identifier
+   : IDENTIFIER
    ;
 
 block
@@ -30,7 +34,7 @@ constantDefinitionPart
 
 
 constantDefinition
-   : IDENTIFIER EQUAL constant
+   : identifier EQUAL constant
    ;
 
 constant
@@ -58,7 +62,7 @@ sign
    ;
 
 constantIdentifier
-   : IDENTIFIER
+   : identifier
    ;
 
 string
@@ -70,7 +74,7 @@ typeDefinitionPart
    ;
 
 typeDefinition
-   : IDENTIFIER EQUAL type
+   : identifier EQUAL type
    ;
 
 type
@@ -82,7 +86,7 @@ simpleType
    ;
 
 scalarType
-   :  (IDENTIFIER (COMMA IDENTIFIER)*)
+   :  (identifier (COMMA identifier)*)
    ;
 
 subrangeType
@@ -90,7 +94,7 @@ subrangeType
    ;
 
 typeIdentifier
-   :  IDENTIFIER
+   :  identifier
    ;
 
 structuredType
@@ -162,7 +166,7 @@ variableDeclarationPart
    ;
 
 variableDeclaration
-   : IDENTIFIER (COMMA IDENTIFIER)* COLON type
+   : identifier (COMMA identifier)* COLON type
    ;
 
 procedureAndFunctionDeclarationPart
@@ -178,15 +182,15 @@ procedureDeclaration
    ;
 
 procedureHeading
-   :  PROCEDURE IDENTIFIER SEMICOLON | PROCEDURE IDENTIFIER LPAREN formalParameterSection (SEMICOLON formalParameterSection)* RPAREN SEMICOLON
+   :  PROCEDURE identifier SEMICOLON | PROCEDURE identifier LPAREN formalParameterSection (SEMICOLON formalParameterSection)* RPAREN SEMICOLON
    ;
 
 formalParameterSection
-   :  parameterGroup | VAR parameterGroup | FUNCTION parameterGroup | PROCEDURE IDENTIFIER ( COMMA IDENTIFIER)*
+   :  parameterGroup | VAR parameterGroup | FUNCTION parameterGroup | PROCEDURE identifier ( COMMA identifier)*
    ;
 
 parameterGroup
-   :  IDENTIFIER (COMMA IDENTIFIER)* COLON typeIdentifier
+   :  identifier (COMMA identifier)* COLON typeIdentifier
    ;
 
 functionDeclaration
@@ -194,8 +198,8 @@ functionDeclaration
    ;
 
 functionHeading
-   :  FUNCTION IDENTIFIER COLON resultType SEMICOLON | 
-      FUNCTION IDENTIFIER LPAREN formalParameterSection (SEMICOLON formalParameterSection)* RPAREN resultType SEMICOLON
+   :  FUNCTION identifier COLON resultType SEMICOLON | 
+      FUNCTION identifier LPAREN formalParameterSection (SEMICOLON formalParameterSection)* RPAREN resultType SEMICOLON
    ;
 
 resultType
@@ -231,7 +235,7 @@ entireVariable
    ;
 
 variableIdentifier
-   :  IDENTIFIER
+   :  identifier
    ;
 
 componentVariable
@@ -243,7 +247,7 @@ indexedVariable
    ;
 
 arrayVariable
-   :  IDENTIFIER
+   :  identifier
    ;
 
 fieldDesignator
@@ -251,19 +255,19 @@ fieldDesignator
    ;
 
 recordVariable
-   :  IDENTIFIER
+   :  identifier
    ;
 
 fieldIdentifier
-   :  IDENTIFIER
+   :  identifier
    ;
 
 fileBuffer
-   :  IDENTIFIER
+   :  identifier
    ;
 
 fileVariable
-   :  IDENTIFIER
+   :  identifier
    ;
 
 referencedVariable
@@ -271,7 +275,7 @@ referencedVariable
    ;
 
 pointerVariable
-   :  IDENTIFIER
+   :  identifier
    ;
 
 expression
@@ -311,7 +315,7 @@ functionDesignator
    ;
 
 functionIdentifier
-   :  IDENTIFIER
+   :  identifier
    ;
 
 set
@@ -331,7 +335,7 @@ procedureStatement
    ;
 
 procedureIdentifier
-   :  IDENTIFIER
+   :  identifier
    ;
 
 actualParameter
@@ -395,7 +399,7 @@ forStatement
    ;
 
 controlVariable
-   :  IDENTIFIER
+   :  identifier
    ;
 
 forList
