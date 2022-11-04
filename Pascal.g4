@@ -50,7 +50,7 @@ unsignedInteger
    ;
 
 unsignedReal
-   : REAL (('e'|'E') scaleFactor)? | unsignedInteger ('e'|'E') scaleFactor
+   : REAL 
    ;
 
 scaleFactor
@@ -480,9 +480,9 @@ WHILE : W H I L E  ;
 WITH : W I T H  ;
 XOR : X O R  ;
 
-IDENTIFIER : [a-zA-Z_] ([a-zA-Z0-9] | '_' )*;
+REAL : INTEGER (('.' INTEGER (E ('+'|'-')? INTEGER)?) | E ('+'|'-')? INTEGER);
 INTEGER : [0-9]+;
-REAL : [0-9]+ '.' [0-9]+;
+IDENTIFIER : [a-zA-Z_] ([a-zA-Z0-9] | '_' )*;
 CHARACTER : '\'' . '\'';
 STRING_LITERAL : '\'' .*? '\'' ;
 
