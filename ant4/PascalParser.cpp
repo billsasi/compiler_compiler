@@ -3,15 +3,16 @@
 
 
 #include "PascalVisitor.h"
-
 #include "PascalParser.h"
-
 
 using namespace antlrcpp;
 using namespace antlr4;
+using namespace intermediate::symtab;
 
 PascalParser::PascalParser(TokenStream *input) : Parser(input) {
   _interpreter = new atn::ParserATNSimulator(this, _atn, _decisionToDFA, _sharedContextCache);
+  symtabStack = new SymtabStack();
+  Predefined::initialize(symtabStack);
 }
 
 PascalParser::~PascalParser() {
@@ -87,7 +88,11 @@ PascalParser::ProgramContext* PascalParser::program() {
     setState(210);
     match(PascalParser::PROGRAM);
     setState(211);
-    identifier();
+    auto node = identifier();                                                 // we get the ident node for the program name
+    std::string progName = node->IDENTIFIER()->getText();                     // get the string name
+    SymtabEntry *progId = symtabStack->enterLocal(progName, Kind::PROGRAM);   // make symtab entry
+    node->entry = progId;                                                     // add pointer from node to symtab entry
+    symtabStack->setProgramId(progId);
     setState(213);
     _errHandler->sync(this);
 
@@ -99,6 +104,9 @@ PascalParser::ProgramContext* PascalParser::program() {
     setState(215);
     match(PascalParser::SEMICOLON);
     setState(216);
+
+    symtabStack->push(); // enter the main program block
+
     block();
     setState(217);
     match(PascalParser::PERIOD);

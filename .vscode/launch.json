@@ -9,7 +9,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${fileDirname}/prog.out",
-      "args": ["test-in.txt"],
+      "args": ["test-in.pas"],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],

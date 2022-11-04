@@ -6,8 +6,11 @@
 
 #include "antlr4-runtime.h"
 
+#include "../intermediate/symtab/SymtabEntry.h"
+#include "../intermediate/symtab/SymtabStack.h"
+#include "../intermediate/symtab/Predefined.h"
 
-
+using namespace intermediate::symtab;
 
 class  PascalParser : public antlr4::Parser {
 public:
@@ -239,6 +242,7 @@ public:
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
+    SymtabEntry *entry = nullptr;
   };
 
   IdentifierContext* identifier();
@@ -1821,6 +1825,8 @@ private:
   static antlr4::dfa::Vocabulary _vocabulary;
   static antlr4::atn::ATN _atn;
   static std::vector<uint16_t> _serializedATN;
+
+  SymtabStack *symtabStack = nullptr;
 
 
   struct Initializer {
