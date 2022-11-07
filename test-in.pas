@@ -1,26 +1,19 @@
-program test;
+program TEST;
 
 CONST
-    factor = 8;
+    FACTOR = 8;
     epsilon = 1.0e-6;
 
 TYPE
-    a = array[1..10] of integer;
+    CH_ARRAY = array[char] of 1..26;
+
 
 VAR
-    i : integer;
-    _var4 : a;
-    _4_var : a;
-    __:b;
-    r_:b;
+    I : integer;
 
 
 BEGIN
-  i := 5;
 
-  while i  < 10 do
-    begin
-      i := -432.435e17;
-    end;
+  ARR[45] := 1;
   
 END.

@@ -5,10 +5,8 @@
 
 
 #include "antlr4-runtime.h"
-
-#include "../intermediate/symtab/SymtabEntry.h"
-#include "../intermediate/symtab/SymtabStack.h"
-#include "../intermediate/symtab/Predefined.h"
+#include "intermediate/symtab/Predefined.h"
+#include "intermediate/symtab/SymtabStack.h"
 
 using namespace intermediate::symtab;
 
@@ -241,7 +239,7 @@ public:
 
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
+
     SymtabEntry *entry = nullptr;
   };
 
@@ -338,6 +336,7 @@ public:
     SignContext *sign();
     ConstantIdentifierContext *constantIdentifier();
     StringContext *string();
+    antlr4::tree::TerminalNode *CHARACTER();
 
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -507,8 +506,10 @@ public:
   public:
     ScalarTypeContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *LPAREN();
     std::vector<IdentifierContext *> identifier();
     IdentifierContext* identifier(size_t i);
+    antlr4::tree::TerminalNode *RPAREN();
     std::vector<antlr4::tree::TerminalNode *> COMMA();
     antlr4::tree::TerminalNode* COMMA(size_t i);
 
@@ -1827,7 +1828,6 @@ private:
   static std::vector<uint16_t> _serializedATN;
 
   SymtabStack *symtabStack = nullptr;
-
 
   struct Initializer {
     Initializer();

@@ -38,7 +38,7 @@ constantDefinition
    ;
 
 constant
-   : unsignedNumber | sign unsignedNumber | constantIdentifier | sign constantIdentifier | string
+   : unsignedNumber | sign unsignedNumber | constantIdentifier | sign constantIdentifier | string | CHARACTER
    ;
 
 unsignedNumber
@@ -86,7 +86,7 @@ simpleType
    ;
 
 scalarType
-   :  (identifier (COMMA identifier)*)
+   :  LPAREN identifier (COMMA identifier)* RPAREN
    ;
 
 subrangeType
