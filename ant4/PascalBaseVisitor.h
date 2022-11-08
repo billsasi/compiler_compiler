@@ -23,15 +23,15 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitIdentifierList(PascalParser::IdentifierListContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitIdentifier(PascalParser::IdentifierContext *ctx) override {
     return visitChildren(ctx);
   }
 
   virtual antlrcpp::Any visitBlock(PascalParser::BlockContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitUsesUnitsPart(PascalParser::UsesUnitsPartContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -51,6 +51,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitConstantChr(PascalParser::ConstantChrContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitConstant(PascalParser::ConstantContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -67,15 +71,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitScaleFactor(PascalParser::ScaleFactorContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitSign(PascalParser::SignContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitConstantIdentifier(PascalParser::ConstantIdentifierContext *ctx) override {
+  virtual antlrcpp::Any visitBool_(PascalParser::Bool_Context *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -91,7 +91,15 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitType(PascalParser::TypeContext *ctx) override {
+  virtual antlrcpp::Any visitFunctionType(PascalParser::FunctionTypeContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitProcedureType(PascalParser::ProcedureTypeContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitType_(PascalParser::Type_Context *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -115,7 +123,19 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitUnpackedStructuredType(PascalParser::UnpackedStructuredTypeContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitStringtype(PascalParser::StringtypeContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitArrayType(PascalParser::ArrayTypeContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitTypeList(PascalParser::TypeListContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -143,19 +163,15 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitVariantType(PascalParser::VariantTypeContext *ctx) override {
+  virtual antlrcpp::Any visitVariantPart(PascalParser::VariantPartContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitTagField(PascalParser::TagFieldContext *ctx) override {
+  virtual antlrcpp::Any visitTag(PascalParser::TagContext *ctx) override {
     return visitChildren(ctx);
   }
 
   virtual antlrcpp::Any visitVariant(PascalParser::VariantContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitCaseLabel(PascalParser::CaseLabelContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -195,7 +211,7 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitProcedureHeading(PascalParser::ProcedureHeadingContext *ctx) override {
+  virtual antlrcpp::Any visitFormalParameterList(PascalParser::FormalParameterListContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -207,19 +223,19 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitIdentifierList(PascalParser::IdentifierListContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitConstList(PascalParser::ConstListContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitFunctionDeclaration(PascalParser::FunctionDeclarationContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitFunctionHeading(PascalParser::FunctionHeadingContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitResultType(PascalParser::ResultTypeContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitStatementPart(PascalParser::StatementPartContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -243,59 +259,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitEntireVariable(PascalParser::EntireVariableContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitVariableIdentifier(PascalParser::VariableIdentifierContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitComponentVariable(PascalParser::ComponentVariableContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitIndexedVariable(PascalParser::IndexedVariableContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitArrayVariable(PascalParser::ArrayVariableContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitFieldDesignator(PascalParser::FieldDesignatorContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitRecordVariable(PascalParser::RecordVariableContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitFieldIdentifier(PascalParser::FieldIdentifierContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitFileBuffer(PascalParser::FileBufferContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitFileVariable(PascalParser::FileVariableContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitReferencedVariable(PascalParser::ReferencedVariableContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitPointerVariable(PascalParser::PointerVariableContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitExpression(PascalParser::ExpressionContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitRelationalOperator(PascalParser::RelationalOperatorContext *ctx) override {
+  virtual antlrcpp::Any visitRelationaloperator(PascalParser::RelationaloperatorContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -303,7 +271,7 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitAddingOperator(PascalParser::AddingOperatorContext *ctx) override {
+  virtual antlrcpp::Any visitAdditiveoperator(PascalParser::AdditiveoperatorContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -311,7 +279,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitMultiplyingOperator(PascalParser::MultiplyingOperatorContext *ctx) override {
+  virtual antlrcpp::Any visitMultiplicativeoperator(PascalParser::MultiplicativeoperatorContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitSignedFactor(PascalParser::SignedFactorContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -327,11 +299,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitFunctionIdentifier(PascalParser::FunctionIdentifierContext *ctx) override {
+  virtual antlrcpp::Any visitParameterList(PascalParser::ParameterListContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitSet(PascalParser::SetContext *ctx) override {
+  virtual antlrcpp::Any visitSet_(PascalParser::Set_Context *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -347,23 +319,27 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitProcedureIdentifier(PascalParser::ProcedureIdentifierContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitActualParameter(PascalParser::ActualParameterContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitGoToStatement(PascalParser::GoToStatementContext *ctx) override {
+  virtual antlrcpp::Any visitParameterwidth(PascalParser::ParameterwidthContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitEmptyStatement(PascalParser::EmptyStatementContext *ctx) override {
+  virtual antlrcpp::Any visitGotoStatement(PascalParser::GotoStatementContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitEmpty(PascalParser::EmptyContext *ctx) override {
+  virtual antlrcpp::Any visitBreakStatement(PascalParser::BreakStatementContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitEmptyStatement_(PascalParser::EmptyStatement_Context *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitEmpty_(PascalParser::Empty_Context *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -372,6 +348,10 @@ public:
   }
 
   virtual antlrcpp::Any visitCompoundStatement(PascalParser::CompoundStatementContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitStatements(PascalParser::StatementsContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -391,11 +371,7 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitCaseLabelList(PascalParser::CaseLabelListContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitRepetitiveStatement(PascalParser::RepetitiveStatementContext *ctx) override {
+  virtual antlrcpp::Any visitRepetetiveStatement(PascalParser::RepetetiveStatementContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -408,10 +384,6 @@ public:
   }
 
   virtual antlrcpp::Any visitForStatement(PascalParser::ForStatementContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitControlVariable(PascalParser::ControlVariableContext *ctx) override {
     return visitChildren(ctx);
   }
 
