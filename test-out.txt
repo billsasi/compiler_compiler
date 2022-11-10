@@ -25,20 +25,14 @@ Parse tree (Lisp format):
                                     (typeList 
                                         (indexType 
                                             (simpleType 
-                                                (typeIdentifier boolean)))) ] of 
+                                                (typeIdentifier boolean))) , 
+                                        (indexType 
+                                            (simpleType 
+                                                (typeIdentifier char)))) ] of 
                                     (componentType 
                                         (type_ 
-                                            (structuredType 
-                                                (unpackedStructuredType 
-                                                    (arrayType array [ 
-                                                        (typeList 
-                                                            (indexType 
-                                                                (simpleType 
-                                                                    (typeIdentifier char)))) ] of 
-                                                        (componentType 
-                                                            (type_ 
-                                                                (simpleType 
-                                                                    (typeIdentifier char)))))))))))))) ;) 
+                                            (simpleType 
+                                                (typeIdentifier char))))))))) ;) 
             (variableDeclarationPart VAR 
                 (variableDeclaration 
                     (identifierList 
@@ -53,7 +47,7 @@ Parse tree (Lisp format):
                     (procedureDeclaration PROCEDURE 
                         (identifier p) 
                         (formalParameterList ( 
-                            (formalParameterSection 
+                            (formalParameterSection const 
                                 (parameterGroup 
                                     (identifierList 
                                         (identifier j)) : 
@@ -205,4 +199,70 @@ Parse tree (Lisp format):
                         (unlabelledStatement 
                             (simpleStatement emptyStatement_)))) END)) . <EOF>)
 
-SYMBOL TABLE
+Symbol tables:
+Nesting Level 0
+  NAME                   KIND
+  Test                   PROGRAM
+  abs                    FUNCTION
+  arctan                 FUNCTION
+  boolean                type
+  char                   type
+  chr                    FUNCTION
+  cos                    FUNCTION
+  eof                    FUNCTION
+  eoln                   FUNCTION
+  exp                    FUNCTION
+  false                  enumeration constant
+  integer                type
+  ln                     FUNCTION
+  odd                    FUNCTION
+  ord                    FUNCTION
+  pred                   FUNCTION
+  read                   PROCEDURE
+  readln                 PROCEDURE
+  real                   type
+  round                  FUNCTION
+  sin                    FUNCTION
+  sqr                    FUNCTION
+  sqrt                   FUNCTION
+  string                 type
+  succ                   FUNCTION
+  true                   enumeration constant
+  trunc                  FUNCTION
+  write                  PROCEDURE
+  writeln                PROCEDURE
+
+Nesting Level 1
+  NAME                   KIND
+  FACTOR                 constant
+  _var                   variable
+  arr                    type
+  epsilon                constant
+  i                      variable
+  p                      PROCEDURE
+  xyz                    variable
+
+Nesting Level 2
+  NAME                   KIND
+  f                      FUNCTION
+  j                      reference parameter
+  k                      variable
+
+Nesting Level 3
+  NAME                   KIND
+  i                      variable
+  x                      value parameter
+
+
+Typedefs:
+arr                   Array
+    ElementType:   Array
+    ElementType: char                  Scalar
+
+    ElementCount: 256
+    IndexType: char
+
+
+    ElementCount: 2
+    IndexType: boolean
+

@@ -5,69 +5,14 @@
 #include "tree/Trees.h"
 #include "PascalLexer.h"
 #include "PascalParser.h"
+#include "utils.h"
 
 using namespace antlrcpp;
 using namespace antlr4;
 using namespace std;
 
 using namespace antlr4::misc;
-using namespace antlr4::tree;
 
-std::string toStringTree(tree::ParseTree *t, const std::vector<std::string> &ruleNames, bool pretty) {
-  std::string temp = antlrcpp::escapeWhitespace(Trees::getNodeText(t, ruleNames), false);
-  if (t->children.empty()) {
-    return temp;
-  }
-
-  std::stringstream ss;
-  ss << "(" << temp << ' ';
-
-  // Implement the recursive walk as iteration to avoid trouble with deep nesting.
-  std::stack<size_t> stack;
-  size_t childIndex = 0;
-  ParseTree *run = t;
-  size_t indentationLevel = 1;
-  while (childIndex < run->children.size()) {
-    if (childIndex > 0) {
-      ss << ' ';
-    }
-    ParseTree *child = run->children[childIndex];
-    temp = antlrcpp::escapeWhitespace(Trees::getNodeText(child, ruleNames), false);
-    if (!child->children.empty()) {
-      // Go deeper one level.
-      stack.push(childIndex);
-      run = child;
-      childIndex = 0;
-      if (pretty) {
-        ++indentationLevel;
-        ss << std::endl;
-        for (size_t i = 0; i < indentationLevel; ++i) {
-          ss << "    ";
-        }
-      }
-      ss << "(" << temp << " ";
-    } else {
-      ss << temp;
-      while (++childIndex == run->children.size()) {
-        if (stack.size() > 0) {
-          // Reached the end of the current level. See if we can step up from here.
-          childIndex = stack.top();
-          stack.pop();
-          run = run->parent;
-          if (pretty) {
-            --indentationLevel;
-          }
-          ss << ")";
-        } else {
-          break;
-        }
-      }
-    }
-  }
-
-  ss << ")";
-  return ss.str();
-}
 
 int main(int argc, const char *args[])
 {
@@ -89,6 +34,8 @@ int main(int argc, const char *args[])
     // to create a parse tree.
     PascalParser parser(&tokens);
     tree::ParseTree *tree = parser.program(); 
+    std::vector<Symtab *> symtabs = parser.getSymtabList();
+    std::vector<Typespec *> types = parser.getTypedefList();
 
     // Print the parse tree in Lisp format.
     cout << endl << "Parse tree (Lisp format):" << endl;
@@ -97,10 +44,23 @@ int main(int argc, const char *args[])
     out << toStringTree(tree, parser.getRuleNames(), true) << endl;
     //std::cout << tree->toStringTree(&parser) << endl;
     //out << tree->toStringTree(&parser) << endl;
-    
-    // Print the symbol table.
-    std::cout << "\nSYMBOL TABLE" << endl;
-    out << "\nSYMBOL TABLE" << endl;
 
+    // Print the symbol tables.
+    cout << endl << "Symbol tables:" << endl;
+    out << endl << "Symbol tables:" << endl;
+    for (Symtab *symtab : symtabs)
+    {
+        printSymtab(cout, symtab);
+        printSymtab(out, symtab);
+    }
+
+    // Print the typedefs.
+    cout << endl << "Typedefs:" << endl;
+    out << endl << "Typedefs:" << endl;
+    for (Typespec *ts : types)
+    {
+        printTypespec(cout, ts);
+        printTypespec(out, ts);
+    }
     return 0;
 }

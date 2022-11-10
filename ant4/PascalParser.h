@@ -1717,6 +1717,11 @@ public:
 
   RecordVariableListContext* recordVariableList();
 
+  // Get all symbol tables
+  std::vector<Symtab*> getSymtabList();
+  // get typelist
+  std::vector<Typespec*> getTypedefList();
+
 
 private:
   static std::vector<antlr4::dfa::DFA> _decisionToDFA;
@@ -1731,7 +1736,8 @@ private:
   static std::vector<uint16_t> _serializedATN;
 
   SymtabStack *symtabStack = nullptr;
-
+  std::vector<Symtab *> symtabList;
+  std::vector<Typespec *> typedefList;
 
   struct Initializer {
     Initializer();
