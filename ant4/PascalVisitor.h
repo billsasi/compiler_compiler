@@ -37,8 +37,6 @@ public:
 
     virtual antlrcpp::Any visitConstantDefinition(PascalParser::ConstantDefinitionContext *context) = 0;
 
-    virtual antlrcpp::Any visitConstantChr(PascalParser::ConstantChrContext *context) = 0;
-
     virtual antlrcpp::Any visitConstant(PascalParser::ConstantContext *context) = 0;
 
     virtual antlrcpp::Any visitUnsignedNumber(PascalParser::UnsignedNumberContext *context) = 0;

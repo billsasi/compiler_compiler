@@ -9,8 +9,12 @@
 #include "intermediate/symtab/SymtabEntry.h"
 #include "intermediate/symtab/SymtabStack.h"
 #include "intermediate/symtab/Predefined.h"
+#include "intermediate/type/Typespec.h"
 
 using namespace intermediate::symtab;
+
+int calculateElementCount(string typestr);
+
 
 
 class  PascalParser : public antlr4::Parser {
@@ -24,47 +28,46 @@ public:
     OPERATOR = 33, OR = 34, PACKED = 35, PROCEDURE = 36, PROGRAM = 37, RECORD = 38, 
     REPEAT = 39, SET = 40, SHL = 41, SHR = 42, STRING = 43, THEN = 44, TO = 45, 
     TRUE = 46, TYPE = 47, UNIT = 48, UNTIL = 49, USES = 50, VAR = 51, WHILE = 52, 
-    WITH = 53, XOR = 54, CHR = 55, CHAR = 56, BOOLEAN = 57, INTEGER = 58, 
-    REAL = 59, PLUS = 60, MINUS = 61, STAR = 62, SLASH = 63, ASSIGN = 64, 
-    COMMA = 65, SEMI = 66, COLON = 67, EQUAL = 68, NOT_EQUAL = 69, LT = 70, 
-    LE = 71, GE = 72, GT = 73, LPAREN = 74, RPAREN = 75, LBRACK = 76, LBRACK2 = 77, 
-    RBRACK = 78, RBRACK2 = 79, POINTER = 80, AT = 81, DOT = 82, DOTDOT = 83, 
-    LCURLY = 84, RCURLY = 85, WS = 86, COMMENT_1 = 87, COMMENT_2 = 88, IDENT = 89, 
-    STRING_LITERAL = 90, NUM_INT = 91, NUM_REAL = 92
+    WITH = 53, XOR = 54, CHAR = 55, BOOLEAN = 56, INTEGER = 57, REAL = 58, 
+    PLUS = 59, MINUS = 60, STAR = 61, SLASH = 62, ASSIGN = 63, COMMA = 64, 
+    SEMI = 65, COLON = 66, EQUAL = 67, NOT_EQUAL = 68, LT = 69, LE = 70, 
+    GE = 71, GT = 72, LPAREN = 73, RPAREN = 74, LBRACK = 75, LBRACK2 = 76, 
+    RBRACK = 77, RBRACK2 = 78, POINTER = 79, AT = 80, DOT = 81, DOTDOT = 82, 
+    LCURLY = 83, RCURLY = 84, WS = 85, COMMENT_1 = 86, COMMENT_2 = 87, IDENT = 88, 
+    STRING_LITERAL = 89, NUM_INT = 90, NUM_REAL = 91
   };
 
   enum {
     RuleProgram = 0, RuleProgramHeading = 1, RuleIdentifier = 2, RuleBlock = 3, 
     RuleUsesUnitsPart = 4, RuleLabelDeclarationPart = 5, RuleLabel = 6, 
-    RuleConstantDefinitionPart = 7, RuleConstantDefinition = 8, RuleConstantChr = 9, 
-    RuleConstant = 10, RuleUnsignedNumber = 11, RuleUnsignedInteger = 12, 
-    RuleUnsignedReal = 13, RuleSign = 14, RuleBool_ = 15, RuleString = 16, 
-    RuleTypeDefinitionPart = 17, RuleTypeDefinition = 18, RuleFunctionType = 19, 
-    RuleProcedureType = 20, RuleType_ = 21, RuleSimpleType = 22, RuleScalarType = 23, 
-    RuleSubrangeType = 24, RuleTypeIdentifier = 25, RuleStructuredType = 26, 
-    RuleUnpackedStructuredType = 27, RuleStringtype = 28, RuleArrayType = 29, 
-    RuleTypeList = 30, RuleIndexType = 31, RuleComponentType = 32, RuleRecordType = 33, 
-    RuleFieldList = 34, RuleFixedPart = 35, RuleRecordSection = 36, RuleVariantPart = 37, 
-    RuleTag = 38, RuleVariant = 39, RuleSetType = 40, RuleBaseType = 41, 
-    RuleFileType = 42, RulePointerType = 43, RuleVariableDeclarationPart = 44, 
-    RuleVariableDeclaration = 45, RuleProcedureAndFunctionDeclarationPart = 46, 
-    RuleProcedureOrFunctionDeclaration = 47, RuleProcedureDeclaration = 48, 
-    RuleFormalParameterList = 49, RuleFormalParameterSection = 50, RuleParameterGroup = 51, 
-    RuleIdentifierList = 52, RuleConstList = 53, RuleFunctionDeclaration = 54, 
-    RuleResultType = 55, RuleStatement = 56, RuleUnlabelledStatement = 57, 
-    RuleSimpleStatement = 58, RuleAssignmentStatement = 59, RuleVariable = 60, 
-    RuleExpression = 61, RuleRelationaloperator = 62, RuleSimpleExpression = 63, 
-    RuleAdditiveoperator = 64, RuleTerm = 65, RuleMultiplicativeoperator = 66, 
-    RuleSignedFactor = 67, RuleFactor = 68, RuleUnsignedConstant = 69, RuleFunctionDesignator = 70, 
-    RuleParameterList = 71, RuleSet_ = 72, RuleElementList = 73, RuleElement = 74, 
-    RuleProcedureStatement = 75, RuleActualParameter = 76, RuleParameterwidth = 77, 
-    RuleGotoStatement = 78, RuleBreakStatement = 79, RuleEmptyStatement_ = 80, 
-    RuleEmpty_ = 81, RuleStructuredStatement = 82, RuleCompoundStatement = 83, 
-    RuleStatements = 84, RuleConditionalStatement = 85, RuleIfStatement = 86, 
-    RuleCaseStatement = 87, RuleCaseListElement = 88, RuleRepetetiveStatement = 89, 
-    RuleWhileStatement = 90, RuleRepeatStatement = 91, RuleForStatement = 92, 
-    RuleForList = 93, RuleInitialValue = 94, RuleFinalValue = 95, RuleWithStatement = 96, 
-    RuleRecordVariableList = 97
+    RuleConstantDefinitionPart = 7, RuleConstantDefinition = 8, RuleConstant = 9, 
+    RuleUnsignedNumber = 10, RuleUnsignedInteger = 11, RuleUnsignedReal = 12, 
+    RuleSign = 13, RuleBool_ = 14, RuleString = 15, RuleTypeDefinitionPart = 16, 
+    RuleTypeDefinition = 17, RuleFunctionType = 18, RuleProcedureType = 19, 
+    RuleType_ = 20, RuleSimpleType = 21, RuleScalarType = 22, RuleSubrangeType = 23, 
+    RuleTypeIdentifier = 24, RuleStructuredType = 25, RuleUnpackedStructuredType = 26, 
+    RuleStringtype = 27, RuleArrayType = 28, RuleTypeList = 29, RuleIndexType = 30, 
+    RuleComponentType = 31, RuleRecordType = 32, RuleFieldList = 33, RuleFixedPart = 34, 
+    RuleRecordSection = 35, RuleVariantPart = 36, RuleTag = 37, RuleVariant = 38, 
+    RuleSetType = 39, RuleBaseType = 40, RuleFileType = 41, RulePointerType = 42, 
+    RuleVariableDeclarationPart = 43, RuleVariableDeclaration = 44, RuleProcedureAndFunctionDeclarationPart = 45, 
+    RuleProcedureOrFunctionDeclaration = 46, RuleProcedureDeclaration = 47, 
+    RuleFormalParameterList = 48, RuleFormalParameterSection = 49, RuleParameterGroup = 50, 
+    RuleIdentifierList = 51, RuleConstList = 52, RuleFunctionDeclaration = 53, 
+    RuleResultType = 54, RuleStatement = 55, RuleUnlabelledStatement = 56, 
+    RuleSimpleStatement = 57, RuleAssignmentStatement = 58, RuleVariable = 59, 
+    RuleExpression = 60, RuleRelationaloperator = 61, RuleSimpleExpression = 62, 
+    RuleAdditiveoperator = 63, RuleTerm = 64, RuleMultiplicativeoperator = 65, 
+    RuleSignedFactor = 66, RuleFactor = 67, RuleUnsignedConstant = 68, RuleFunctionDesignator = 69, 
+    RuleParameterList = 70, RuleSet_ = 71, RuleElementList = 72, RuleElement = 73, 
+    RuleProcedureStatement = 74, RuleActualParameter = 75, RuleParameterwidth = 76, 
+    RuleGotoStatement = 77, RuleBreakStatement = 78, RuleEmptyStatement_ = 79, 
+    RuleEmpty_ = 80, RuleStructuredStatement = 81, RuleCompoundStatement = 82, 
+    RuleStatements = 83, RuleConditionalStatement = 84, RuleIfStatement = 85, 
+    RuleCaseStatement = 86, RuleCaseListElement = 87, RuleRepetetiveStatement = 88, 
+    RuleWhileStatement = 89, RuleRepeatStatement = 90, RuleForStatement = 91, 
+    RuleForList = 92, RuleInitialValue = 93, RuleFinalValue = 94, RuleWithStatement = 95, 
+    RuleRecordVariableList = 96
   };
 
   PascalParser(antlr4::TokenStream *input);
@@ -86,7 +89,6 @@ public:
   class LabelContext;
   class ConstantDefinitionPartContext;
   class ConstantDefinitionContext;
-  class ConstantChrContext;
   class ConstantContext;
   class UnsignedNumberContext;
   class UnsignedIntegerContext;
@@ -332,22 +334,6 @@ public:
 
   ConstantDefinitionContext* constantDefinition();
 
-  class  ConstantChrContext : public antlr4::ParserRuleContext {
-  public:
-    ConstantChrContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *CHR();
-    antlr4::tree::TerminalNode *LPAREN();
-    UnsignedIntegerContext *unsignedInteger();
-    antlr4::tree::TerminalNode *RPAREN();
-
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  ConstantChrContext* constantChr();
-
   class  ConstantContext : public antlr4::ParserRuleContext {
   public:
     ConstantContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -356,7 +342,6 @@ public:
     SignContext *sign();
     IdentifierContext *identifier();
     StringContext *string();
-    ConstantChrContext *constantChr();
 
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -651,6 +636,8 @@ public:
 
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+
+    Typespec *type;
    
   };
 
@@ -1289,7 +1276,6 @@ public:
     UnsignedConstantContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     UnsignedNumberContext *unsignedNumber();
-    ConstantChrContext *constantChr();
     StringContext *string();
     antlr4::tree::TerminalNode *NIL();
 
@@ -1743,7 +1729,7 @@ private:
   static antlr4::dfa::Vocabulary _vocabulary;
   static antlr4::atn::ATN _atn;
   static std::vector<uint16_t> _serializedATN;
-  
+
   SymtabStack *symtabStack = nullptr;
 
 

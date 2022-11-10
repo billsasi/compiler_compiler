@@ -73,17 +73,12 @@ constantDefinition
    : identifier EQUAL constant
    ;
 
-constantChr
-   : CHR LPAREN unsignedInteger RPAREN
-   ;
-
 constant
    : unsignedNumber
    | sign unsignedNumber
    | identifier
    | sign identifier
    | string
-   | constantChr
    ;
 
 unsignedNumber
@@ -366,7 +361,6 @@ factor
 
 unsignedConstant
    : unsignedNumber
-   | constantChr
    | string
    | NIL
    ;
@@ -546,7 +540,6 @@ VAR : V A R  ;
 WHILE : W H I L E  ;
 WITH : W I T H  ;
 XOR : X O R  ;
-CHR : C H R ;
 CHAR : C H A R ;
 BOOLEAN : B O O L E A N ;
 INTEGER : I N T E G E R ;

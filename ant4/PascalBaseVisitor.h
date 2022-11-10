@@ -51,10 +51,6 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitConstantChr(PascalParser::ConstantChrContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitConstant(PascalParser::ConstantContext *ctx) override {
     return visitChildren(ctx);
   }

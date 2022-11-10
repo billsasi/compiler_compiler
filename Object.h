@@ -73,4 +73,6 @@ inline string convertString(const string pascalString, bool needBackslash)
     return unquoted;
 }
 
+
+
 #endif /* OBJECT_H_ */
