@@ -1326,13 +1326,24 @@ PascalParser::TypeDefinitionContext* PascalParser::typeDefinition() {
       case PascalParser::NUM_REAL: {
         setState(298);
         auto typenode = type_();
+        if (!typenode)
+          break;
         if (typenode->simpleType() != nullptr) {
-          Typespec *typespec = symtabStack->lookup(typenode->getText())->getType();
+          auto typeEntry = symtabStack->lookup(typenode->getText());
+          if (typeEntry == nullptr)
+            break;
+          Typespec *typespec = typeEntry->getType();
           entry->setType(typespec);
-          typespec->setIdentifier(entry);
           typedefList.push_back(typespec);
+          break;
         }
-        auto array = typenode->structuredType()->unpackedStructuredType()->arrayType();
+        auto structured = typenode->structuredType();
+        if (structured == nullptr)
+          break;
+        auto unpacked = structured->unpackedStructuredType();
+        if (unpacked == nullptr)
+          break;
+        auto array = unpacked->arrayType();
         if (array) {
           Typespec *typespec = array->type;
           entry->setType(typespec);

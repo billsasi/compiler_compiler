@@ -6,8 +6,11 @@ CONST
 
 TYPE
     arr = array[boolean, char] of char;
-
-
+    arr2 = array[char] of arr;
+    
+    ty_1 = integer;
+    ty_2 = boolean;
+    real10 = real;
 
 VAR
     i, _var, xyz : integer;

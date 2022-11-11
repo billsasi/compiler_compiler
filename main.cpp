@@ -46,21 +46,13 @@ int main(int argc, const char *args[])
     //out << tree->toStringTree(&parser) << endl;
 
     // Print the symbol tables.
-    cout << endl << "Symbol tables:" << endl;
-    out << endl << "Symbol tables:" << endl;
+    cout << endl << "SYMTABS / TYPEDEFS:" << endl;
+    out << endl << "SYMTABS / TYPEDEFS:" << endl;
     for (Symtab *symtab : symtabs)
     {
         printSymtab(cout, symtab);
         printSymtab(out, symtab);
     }
 
-    // Print the typedefs.
-    cout << endl << "Typedefs:" << endl;
-    out << endl << "Typedefs:" << endl;
-    for (Typespec *ts : types)
-    {
-        printTypespec(cout, ts);
-        printTypespec(out, ts);
-    }
     return 0;
 }

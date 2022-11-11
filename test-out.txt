@@ -32,7 +32,37 @@ Parse tree (Lisp format):
                                     (componentType 
                                         (type_ 
                                             (simpleType 
-                                                (typeIdentifier char))))))))) ;) 
+                                                (typeIdentifier char))))))))) ; 
+                (typeDefinition 
+                    (identifier arr2) = 
+                    (type_ 
+                        (structuredType 
+                            (unpackedStructuredType 
+                                (arrayType array [ 
+                                    (typeList 
+                                        (indexType 
+                                            (simpleType 
+                                                (typeIdentifier char)))) ] of 
+                                    (componentType 
+                                        (type_ 
+                                            (simpleType 
+                                                (typeIdentifier 
+                                                    (identifier arr)))))))))) ; 
+                (typeDefinition 
+                    (identifier ty_1) = 
+                    (type_ 
+                        (simpleType 
+                            (typeIdentifier integer)))) ; 
+                (typeDefinition 
+                    (identifier ty_2) = 
+                    (type_ 
+                        (simpleType 
+                            (typeIdentifier boolean)))) ; 
+                (typeDefinition 
+                    (identifier real10) = 
+                    (type_ 
+                        (simpleType 
+                            (typeIdentifier real)))) ;) 
             (variableDeclarationPart VAR 
                 (variableDeclaration 
                     (identifierList 
@@ -199,70 +229,76 @@ Parse tree (Lisp format):
                         (unlabelledStatement 
                             (simpleStatement emptyStatement_)))) END)) . <EOF>)
 
-Symbol tables:
-Nesting Level 0
-  NAME                   KIND
-  Test                   PROGRAM
-  abs                    FUNCTION
-  arctan                 FUNCTION
-  boolean                type
-  char                   type
-  chr                    FUNCTION
-  cos                    FUNCTION
-  eof                    FUNCTION
-  eoln                   FUNCTION
-  exp                    FUNCTION
-  false                  enumeration constant
-  integer                type
-  ln                     FUNCTION
-  odd                    FUNCTION
-  ord                    FUNCTION
-  pred                   FUNCTION
-  read                   PROCEDURE
-  readln                 PROCEDURE
-  real                   type
-  round                  FUNCTION
-  sin                    FUNCTION
-  sqr                    FUNCTION
-  sqrt                   FUNCTION
-  string                 type
-  succ                   FUNCTION
-  true                   enumeration constant
-  trunc                  FUNCTION
-  write                  PROCEDURE
-  writeln                PROCEDURE
-
-Nesting Level 1
-  NAME                   KIND
-  FACTOR                 constant
-  _var                   variable
-  arr                    type
-  epsilon                constant
-  i                      variable
-  p                      PROCEDURE
-  xyz                    variable
-
-Nesting Level 2
-  NAME                   KIND
-  f                      FUNCTION
-  j                      reference parameter
-  k                      variable
-
-Nesting Level 3
-  NAME                   KIND
-  i                      variable
-  x                      value parameter
-
-
-Typedefs:
-arr                   Array
-    ElementType:   Array
-    ElementType: char                  Scalar
-
-    ElementCount: 256
-    IndexType: char
-
-
-    ElementCount: 2
-    IndexType: boolean
-
+SYMTABS / TYPEDEFS:
+Nesting Level 0------------------------------------------------------
+  NAME                KIND                  TYPE
+  Test                PROGRAM               undefined
+  abs                 FUNCTION              undefined
+  arctan              FUNCTION              undefined
+  boolean             type                  boolean Scalar
+  char                type                  char Scalar
+  chr                 FUNCTION              undefined
+  cos                 FUNCTION              undefined
+  eof                 FUNCTION              undefined
+  eoln                FUNCTION              undefined
+  exp                 FUNCTION              undefined
+  false               enumeration constant  boolean Scalar
+  integer             type                  integer Scalar
+  ln                  FUNCTION              undefined
+  odd                 FUNCTION              undefined
+  ord                 FUNCTION              undefined
+  pred                FUNCTION              undefined
+  read                PROCEDURE             undefined
+  readln              PROCEDURE             undefined
+  real                type                  real Scalar
+  round               FUNCTION              undefined
+  sin                 FUNCTION              undefined
+  sqr                 FUNCTION              undefined
+  sqrt                FUNCTION              undefined
+  string              type                  string Scalar
+  succ                FUNCTION              undefined
+  true                enumeration constant  boolean Scalar
+  trunc               FUNCTION              undefined
+  write               PROCEDURE             undefined
+  writeln             PROCEDURE             undefined
+-----------------------------------------------------------------------
+Nesting Level 1------------------------------------------------------
+  NAME                KIND                  TYPE
+  FACTOR              constant              undefined
+  _var                variable              integer Scalar
+  arr                 type                  Array
+                                              ElementType: Array
+                                                 ElementType: char Scalar
+                                                 ElementCount: 256
+                                                 IndexType: char
+                                              ElementCount: 2
+                                              IndexType: boolean
+  arr2                type                  Array
+                                              ElementType: Array
+                                                 ElementType: Array
+                                                    ElementType: char Scalar
+                                                    ElementCount: 256
+                                                    IndexType: char
+                                                 ElementCount: 2
+                                                 IndexType: boolean
+                                              ElementCount: 256
+                                              IndexType: char
+  epsilon             constant              undefined
+  i                   variable              integer Scalar
+  p                   PROCEDURE             undefined
+  real10              type                  real Scalar
+  ty_1                type                  integer Scalar
+  ty_2                type                  boolean Scalar
+  xyz                 variable              integer Scalar
+-----------------------------------------------------------------------
+Nesting Level 2------------------------------------------------------
+  NAME                KIND                  TYPE
+  f                   FUNCTION              undefined
+  j                   reference parameter   real Scalar
+  k                   variable              char Scalar
+-----------------------------------------------------------------------
+Nesting Level 3------------------------------------------------------
+  NAME                KIND                  TYPE
+  i                   variable              real Scalar
+  x                   value parameter       real Scalar
+-----------------------------------------------------------------------

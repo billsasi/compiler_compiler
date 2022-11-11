@@ -8,34 +8,47 @@ using namespace std;
 
 using namespace antlr4::misc;
 
-void printTypespec(ostream& out, Typespec *ts) {
-  auto typeId = ts->getIdentifier();
-  if (typeId)
-    out << std::setw(20) << std::left << typeId->getName();
-  if (ts->getForm() == SCALAR) {
-    out << "  Scalar";
-  } else if (ts->getForm() == ENUMERATION) {
-    out << "  Enumeration";
+void printTypespec(ostream& out, Typespec *ts, int indent) {
+  if (ts==nullptr) {
+    out << "undefined\n";
+    return;
+  }
+  std::string indentStr = "";
+  for (int i = 0; i < indent; i++) {
+    indentStr += "   ";
+  }
+  // auto typeId = ts->getIdentifier();
+  // if (typeId)
+  //   out << indentStr << std::setw(20) << std::left << typeId->getName();
+  if (ts->getForm() == SCALAR || ts->getForm() == ENUMERATION) {
+    auto identNode = ts->getIdentifier();
+    if (identNode) {
+      out << identNode->getName() << " Scalar";
+    } else
+      out << "Scalar";
   } else if (ts->getForm() == ARRAY) {
-    out << "  Array\n";
+    out << "Array\n"; 
     auto et = ts->getArrayElementType();
-    out << "    ElementType: ";
-    printTypespec(out, et);
-    out << std::endl;
-    out << "    ElementCount: " << ts->getArrayElementCount() << std::endl;
-    out << "    IndexType: " << ts->getArrayIndexType()->getIdentifier()->getName() << std::endl;
+    out << indentStr << " ElementType: ";
+    printTypespec(out, et, indent+1);
+    out << indentStr << " ElementCount: " << ts->getArrayElementCount();
+    out << std::endl << indentStr << " IndexType: " << ts->getArrayIndexType()->getIdentifier()->getName();
   }
   out << std::endl;
 }
 
 void printSymtab(ostream& out, Symtab* symtab) {
     std::vector<SymtabEntry*> entries = symtab->sortedEntries();
-    out << "Nesting Level " << symtab->getNestingLevel() << std::endl;
-    out << "  " << std::setw(20) << std::left << "NAME" << "   " << "KIND" << std::endl;
+    out << "Nesting Level " << symtab->getNestingLevel() << "------------------------------------------------------" << std::endl;
+    out << "  " << std::setw(20) << std::left << "NAME" << std::setw(22) << std::left << "KIND";
+    out << "TYPE\n";
     for (SymtabEntry* entry : entries) {
         int k = int(entry->getKind());
-        out << "  " << std::setw(20) << std::left << entry->getName() << "   " << KIND_STRINGS[k] << std::endl;
+        auto ts = entry->getType();
+        out << "  " << std::setw(20) << std::left << entry->getName() << std::setw(22) << std::left << KIND_STRINGS[k];
+        printTypespec(out, ts, 15);
     }
+    out << "-----------------------------------------------------------------------";
     out << std::endl;
 }
 
