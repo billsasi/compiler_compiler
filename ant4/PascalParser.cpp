@@ -7,9 +7,10 @@
 #include "PascalParser.h"
 
 #include "intermediate/symtab/SymtabEntry.h"
-#include "intermediate/symtab/SymtabStack.h"
+#include "intermediate/symtab/symtabStack.h"
 #include "intermediate/symtab/Predefined.h"
 #include "intermediate/type/Typespec.h"
+#include "intermediate/type/TypeChecker.h"
 
 using namespace antlrcpp;
 using namespace antlr4;
@@ -18,9 +19,9 @@ using namespace intermediate::symtab;
 
 PascalParser::PascalParser(TokenStream *input) : Parser(input) {
   _interpreter = new atn::ParserATNSimulator(this, _atn, _decisionToDFA, _sharedContextCache);
-  symtabStack = new SymtabStack();
-  Predefined::initialize(symtabStack);
-  symtabList.push_back(symtabStack->getLocalSymtab());
+  //symtabStack = new symtabStack();
+  Predefined::initialize(&symtabStack);
+  symtabList.push_back(symtabStack.getLocalSymtab());
 }
 
 PascalParser::~PascalParser() {
@@ -182,14 +183,14 @@ PascalParser::ProgramHeadingContext* PascalParser::programHeading() {
         setState(203);
         IdentifierContext* node = identifier();
         std::string programName = node->getText();
-        SymtabEntry *entry = symtabStack->enterLocal(programName, Kind::PROGRAM);
+        SymtabEntry *entry = symtabStack.enterLocal(programName, Kind::PROGRAM);
         node->entry = entry;
-        symtabStack->setProgramId(entry);
+        symtabStack.setProgramId(entry);
         setState(208);
         _errHandler->sync(this);
 
-        symtabStack->push(); // move from global scope to level 1 (program scope)
-        symtabList.push_back(symtabStack->getLocalSymtab()); // keep track of it
+        symtabStack.push(); // move from global scope to level 1 (program scope)
+        symtabList.push_back(symtabStack.getLocalSymtab()); // keep track of it
 
         _la = _input->LA(1);
         if (_la == PascalParser::LPAREN) {
@@ -743,7 +744,7 @@ PascalParser::ConstantDefinitionContext* PascalParser::constantDefinition() {
     setState(259);
     auto node = identifier();
     std::string name = node->getText();
-    SymtabEntry *entry = symtabStack->enterLocal(name, Kind::CONSTANT);
+    SymtabEntry *entry = symtabStack.enterLocal(name, Kind::CONSTANT);
     node->entry = entry;
     setState(260);
     match(PascalParser::EQUAL);
@@ -1300,7 +1301,7 @@ PascalParser::TypeDefinitionContext* PascalParser::typeDefinition() {
     enterOuterAlt(_localctx, 1);
     setState(296);
     auto id = identifier();
-    auto entry = symtabStack->enterLocal(id->getText(), Kind::TYPE);
+    auto entry = symtabStack.enterLocal(id->getText(), Kind::TYPE);
     setState(297);
     match(PascalParser::EQUAL);
     setState(301);
@@ -1329,7 +1330,7 @@ PascalParser::TypeDefinitionContext* PascalParser::typeDefinition() {
         if (!typenode)
           break;
         if (typenode->simpleType() != nullptr) {
-          auto typeEntry = symtabStack->lookup(typenode->getText());
+          auto typeEntry = symtabStack.lookup(typenode->getText());
           if (typeEntry == nullptr)
             break;
           Typespec *typespec = typeEntry->getType();
@@ -2216,8 +2217,12 @@ PascalParser::ArrayTypeContext* PascalParser::arrayType() {
       Typespec *cur = new Typespec(Form::ARRAY);
       _localctx->type = cur;
       for (auto indexType : indexTypes) {
+        if (indexType == nullptr)
+          break;
         std::string txt = indexType->getText();
-        SymtabEntry *indexEntry = symtabStack->lookup(txt);
+        SymtabEntry *indexEntry = symtabStack.lookup(txt);
+        if (!indexEntry)
+          break;
         cur->setArrayIndexType(indexEntry->getType());
         cur->setArrayElementCount(calculateElementCount(txt));
         Typespec *next = new Typespec(Form::ARRAY);
@@ -2234,11 +2239,17 @@ PascalParser::ArrayTypeContext* PascalParser::arrayType() {
       match(PascalParser::OF);
       setState(361);
       auto compType = componentType();
-      SymtabEntry *compEntry = symtabStack->lookup(compType->getText());
+      if (!compType)
+        break;
+      SymtabEntry *compEntry = symtabStack.lookup(compType->getText());
       if (compEntry != nullptr) {
         cur->setArrayElementType(compEntry->getType());
       } else {
-        cur->setArrayElementType(compType->type_()->structuredType()->unpackedStructuredType()->arrayType()->type);
+        if (compType->type_() && compType->type_()->structuredType() && 
+            compType->type_()->structuredType()->unpackedStructuredType() &&
+            compType->type_()->structuredType()->unpackedStructuredType()->arrayType()) {
+          cur->setArrayElementType(compType->type_()->structuredType()->unpackedStructuredType()->arrayType()->type);
+        }
       }
       break;
     }
@@ -3305,16 +3316,28 @@ PascalParser::VariableDeclarationContext* PascalParser::variableDeclaration() {
     match(PascalParser::COLON);
     setState(463);
     auto typenode = type_();
-    std::string typeId = typenode->simpleType()->typeIdentifier()->getText();
-    if (typenode) {
-      auto typeEntry = symtabStack->lookup(typeId);
+    if (!typenode)
+      return _localctx;
+    if (typenode->simpleType() && typenode->simpleType()->typeIdentifier()) {
+      std::string typeId = typenode->simpleType()->typeIdentifier()->getText();
+      auto typeEntry = symtabStack.lookup(typeId);
       if (typeEntry) {
         auto typespec = typeEntry->getType();
         for (auto name : names) {
-          auto entry = symtabStack->enterLocal(name->getText(), Kind::VARIABLE);
+          auto entry = symtabStack.enterLocal(name->getText(), Kind::VARIABLE);
           entry->setType(typespec);
         }
       }
+    } else if (typenode->structuredType() && typenode->structuredType() &&
+               typenode->structuredType()->unpackedStructuredType()) {
+        auto array = typenode->structuredType()->unpackedStructuredType()->arrayType();
+        if (!array)
+          return _localctx;
+        auto typespec = array->type;
+        for (auto name : names) {
+          auto entry = symtabStack.enterLocal(name->getText(), Kind::VARIABLE);
+          entry->setType(typespec);
+        }      
     }
    
   }
@@ -3497,9 +3520,9 @@ PascalParser::ProcedureDeclarationContext* PascalParser::procedureDeclaration() 
     match(PascalParser::PROCEDURE);
     setState(473);
     auto procname = identifier()->getText();
-    SymtabEntry *procEntry = symtabStack->enterLocal(procname, Kind::PROCEDURE);
-    Symtab *procSymtab = symtabStack->push();
-    symtabList.push_back(symtabStack->getLocalSymtab()); // keep track of it
+    SymtabEntry *procEntry = symtabStack.enterLocal(procname, Kind::PROCEDURE);
+    Symtab *procSymtab = symtabStack.push();
+    symtabList.push_back(symtabStack.getLocalSymtab()); // keep track of it
     procEntry->setRoutineSymtab(procSymtab);
     setState(475);
     _errHandler->sync(this);
@@ -3513,15 +3536,15 @@ PascalParser::ProcedureDeclarationContext* PascalParser::procedureDeclaration() 
         vector<IdentifierContext *> idents = section->parameterGroup()->identifierList()->identifier();
         if (section->VAR() || section->CONST() || section->FUNCTION() || section->PROCEDURE()) { // reference params
           for (auto ident : idents) {
-            SymtabEntry *paramId = symtabStack->enterLocal(ident->getText(), Kind::REFERENCE_PARAMETER);
+            SymtabEntry *paramId = symtabStack.enterLocal(ident->getText(), Kind::REFERENCE_PARAMETER);
             std::string typeId = section->parameterGroup()->typeIdentifier()->getText();
-            paramId->setType(symtabStack->lookup(typeId)->getType());
+            paramId->setType(symtabStack.lookup(typeId)->getType());
           }
         } else { // value params
           for (auto ident : idents) {
-            SymtabEntry *paramId = symtabStack->enterLocal(ident->getText(), Kind::VALUE_PARAMETER);
+            SymtabEntry *paramId = symtabStack.enterLocal(ident->getText(), Kind::VALUE_PARAMETER);
             std::string typeId = section->parameterGroup()->typeIdentifier()->getText();
-            paramId->setType(symtabStack->lookup(typeId)->getType());
+            paramId->setType(symtabStack.lookup(typeId)->getType());
           }
         }
       }
@@ -3530,7 +3553,7 @@ PascalParser::ProcedureDeclarationContext* PascalParser::procedureDeclaration() 
     match(PascalParser::SEMI);
     setState(478);
     block();
-    symtabStack->pop();
+    symtabStack.pop();
   }
   catch (RecognitionException &e) {
     _errHandler->reportError(this, e);
@@ -3988,9 +4011,9 @@ PascalParser::FunctionDeclarationContext* PascalParser::functionDeclaration() {
     match(PascalParser::FUNCTION);
     setState(523);
     auto funcName = identifier()->getText();
-    SymtabEntry *funcEntry = symtabStack->enterLocal(funcName, Kind::FUNCTION);
-    Symtab *funcSymtab = symtabStack->push();
-    symtabList.push_back(symtabStack->getLocalSymtab()); // keep track of it
+    SymtabEntry *funcEntry = symtabStack.enterLocal(funcName, Kind::FUNCTION);
+    Symtab *funcSymtab = symtabStack.push();
+    symtabList.push_back(symtabStack.getLocalSymtab()); // keep track of it
     funcEntry->setRoutineSymtab(funcSymtab);
 
     setState(525);
@@ -4005,15 +4028,15 @@ PascalParser::FunctionDeclarationContext* PascalParser::functionDeclaration() {
         vector<IdentifierContext *> idents = section->parameterGroup()->identifierList()->identifier();
         if (section->VAR() || section->CONST() || section->FUNCTION() || section->PROCEDURE()) { // reference params
           for (auto ident : idents) {
-            SymtabEntry *paramId = symtabStack->enterLocal(ident->getText(), Kind::REFERENCE_PARAMETER);
+            SymtabEntry *paramId = symtabStack.enterLocal(ident->getText(), Kind::REFERENCE_PARAMETER);
             std::string typeId = section->parameterGroup()->typeIdentifier()->getText();
-            paramId->setType(symtabStack->lookup(typeId)->getType());
+            paramId->setType(symtabStack.lookup(typeId)->getType());
           }
         } else { // value params
           for (auto ident : idents) {
-            SymtabEntry *paramId = symtabStack->enterLocal(ident->getText(), Kind::VALUE_PARAMETER);
+            SymtabEntry *paramId = symtabStack.enterLocal(ident->getText(), Kind::VALUE_PARAMETER);
             std::string typeId = section->parameterGroup()->typeIdentifier()->getText();
-            paramId->setType(symtabStack->lookup(typeId)->getType());
+            paramId->setType(symtabStack.lookup(typeId)->getType());
           }
         }
       }
@@ -4026,7 +4049,7 @@ PascalParser::FunctionDeclarationContext* PascalParser::functionDeclaration() {
     match(PascalParser::SEMI);
     setState(530);
     block();
-    symtabStack->pop();
+    symtabStack.pop();
   }
   catch (RecognitionException &e) {
     _errHandler->reportError(this, e);
@@ -4385,14 +4408,39 @@ PascalParser::AssignmentStatementContext* PascalParser::assignmentStatement() {
     exitRule();
   });
   try {
+    auto line = _localctx->start->getLine();
     enterOuterAlt(_localctx, 1);
     setState(552);
-    variable();
+    auto leftVar = variable();
+    Typespec *leftType = nullptr;
+    Typespec *rightType = nullptr;
+    if (leftVar) {
+      auto leftIdent = leftVar->identifier(0);
+      if (leftIdent) {
+        auto leftText = leftIdent->getText();
+        auto entry = symtabStack.lookup(leftText);
+        if (entry) {
+          leftType = entry->getType();
+        } else {
+          std::cout << "error: line: " << line << ": undefined variable: " << leftText << std::endl;
+        }
+      }
+    }
     setState(553);
     match(PascalParser::ASSIGN);
     setState(554);
-    expression();
-   
+    auto node = expression();
+    if (node && node->simpleExpression() && node->simpleExpression()->term() && 
+        node->simpleExpression()->term() && node->simpleExpression()->term()->signedFactor()) {
+      auto factor = node->simpleExpression()->term()->signedFactor()->factor();
+      rightType = factor->type;
+    }
+    if (!leftType || !rightType) {
+      return _localctx;
+    }
+    if (!TypeChecker::areAssignmentCompatible(leftType, rightType)) {
+      std::cout << "error: line: " << line << ": assignment incompatible " << std::endl;
+    } 
   }
   catch (RecognitionException &e) {
     _errHandler->reportError(this, e);
@@ -4655,9 +4703,27 @@ PascalParser::ExpressionContext* PascalParser::expression() {
     exitRule();
   });
   try {
+    auto line = _localctx->start->getLine();
     enterOuterAlt(_localctx, 1);
     setState(591);
-    simpleExpression();
+    Typespec *leftType = nullptr;
+    Typespec *rightType = nullptr;
+    auto leftExp = simpleExpression();
+    if (leftExp && leftExp->term() && 
+          leftExp->term() && leftExp->term()->signedFactor()) {
+        auto factor = leftExp->term()->signedFactor()->factor();
+        leftType = factor->type;
+        if (factor->variable()) {
+          auto leftVar = factor->variable()->getText();
+          auto entry = symtabStack.lookup(leftVar);
+          if (!entry) {
+            std::cout << "Error: " << leftVar << " is not declared" << std::endl;
+          }
+        }
+        
+        
+    }
+    
     setState(595);
     _errHandler->sync(this);
 
@@ -4673,7 +4739,19 @@ PascalParser::ExpressionContext* PascalParser::expression() {
       setState(592);
       relationaloperator();
       setState(593);
-      expression();
+      auto node = expression();
+      if (node && node->simpleExpression() && node->simpleExpression()->term() && 
+          node->simpleExpression()->term() && node->simpleExpression()->term()->signedFactor()) {
+        auto factor = node->simpleExpression()->term()->signedFactor()->factor();
+        rightType = factor->type;
+      }
+      if (!leftType || !rightType) {
+        return _localctx;
+      }
+      if (!TypeChecker::areComparisonCompatible(leftType, rightType)) {
+        std::cout << "error: line: " << line << ": comparison incompatible " << std::endl;
+      } 
+      
     }
    
   }
@@ -5190,7 +5268,20 @@ PascalParser::FactorContext* PascalParser::factor() {
     case 1: {
       enterOuterAlt(_localctx, 1);
       setState(620);
-      variable();
+      auto node = variable();
+      if (node) {
+        auto ident = node->identifier(0);
+        if (ident) {
+          auto entry = symtabStack.lookup(ident->getText());
+          if (!entry) {
+            std::cout << "error: undefined variable: " << ident->getText() << std::endl;
+            break;
+          }
+          auto typespec = entry->getType();
+          _localctx->type = typespec;
+        }
+      }
+      
       break;
     }
 
@@ -5215,7 +5306,43 @@ PascalParser::FactorContext* PascalParser::factor() {
     case 4: {
       enterOuterAlt(_localctx, 4);
       setState(626);
-      unsignedConstant();
+      auto node = unsignedConstant();
+      auto strNode = node->string();
+      if (strNode) {
+        std::string str = strNode->getText();
+        if (str.length() == 3 && str[0]=='\'' && str[2]=='\'') {
+          auto entry = symtabStack.lookup("char");
+          if (entry) {
+            auto typespec = entry->getType();
+            if (typespec) {
+              _localctx->type = typespec;
+            }
+          }
+        }
+      }
+      auto unsignedNum = node->unsignedNumber();
+      if (unsignedNum) {
+        auto unsignedInt = unsignedNum->unsignedInteger();
+        if (unsignedInt) {
+          SymtabEntry *entry = symtabStack.lookup("integer");
+          if (entry) {
+            auto typeSpec = entry->getType();
+            if (typeSpec) {
+              _localctx->type = typeSpec;
+            }
+          }
+        }
+        auto unsignedReal = unsignedNum->unsignedReal();
+        if (unsignedReal) {
+          SymtabEntry *entry = symtabStack.lookup("real");
+          if (entry) {
+            auto typeSpec = entry->getType();
+            if (typeSpec) {
+              _localctx->type = typeSpec;
+            }
+          }
+        }
+      }
       break;
     }
 
@@ -5239,6 +5366,13 @@ PascalParser::FactorContext* PascalParser::factor() {
       enterOuterAlt(_localctx, 7);
       setState(630);
       bool_();
+      auto entry = symtabStack.lookup("boolean");
+      if (entry) {
+        auto typeSpec = entry->getType();
+        if (typeSpec) {
+          _localctx->type = typeSpec;
+        }
+      }
       break;
     }
 
@@ -7875,7 +8009,6 @@ std::vector<Symtab*> PascalParser::getSymtabList() {
 std::vector<Typespec*> PascalParser::getTypedefList() {
   return typedefList;
 }
-
 
 int calculateElementCount(string typestr) {
     int count = 1;

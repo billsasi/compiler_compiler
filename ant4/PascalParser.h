@@ -1266,6 +1266,8 @@ public:
 
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+
+    Typespec *type = nullptr;
    
   };
 
@@ -1722,6 +1724,8 @@ public:
   // get typelist
   std::vector<Typespec*> getTypedefList();
 
+  void setErrorOut(ostream& o);
+
 
 private:
   static std::vector<antlr4::dfa::DFA> _decisionToDFA;
@@ -1735,7 +1739,7 @@ private:
   static antlr4::atn::ATN _atn;
   static std::vector<uint16_t> _serializedATN;
 
-  SymtabStack *symtabStack = nullptr;
+  SymtabStack symtabStack;
   std::vector<Symtab *> symtabList;
   std::vector<Typespec *> typedefList;
 

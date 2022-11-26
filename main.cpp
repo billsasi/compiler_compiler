@@ -5,6 +5,8 @@
 #include "tree/Trees.h"
 #include "PascalLexer.h"
 #include "PascalParser.h"
+#include "PascalBaseVisitor.h"
+#include "CodeGenerator.h"
 #include "utils.h"
 
 using namespace antlrcpp;
@@ -36,6 +38,8 @@ int main(int argc, const char *args[])
     tree::ParseTree *tree = parser.program(); 
     std::vector<Symtab *> symtabs = parser.getSymtabList();
     std::vector<Typespec *> types = parser.getTypedefList();
+
+    CodeGenerator codeGenerator;
 
     // Print the parse tree in Lisp format.
     cout << endl << "Parse tree (Lisp format):" << endl;

@@ -1,4 +1,0 @@
-auto node = identifier();
-    std::string name = node->getText();
-    SymtabEntry *entry = symtabStack->enterLocal(name, Kind::CONSTANT);
-    node->entry = entry;

@@ -4,203 +4,13 @@ Parse tree (Lisp format):
         (programHeading PROGRAM 
             (identifier Test) ;) 
         (block 
-            (constantDefinitionPart CONST 
-                (constantDefinition 
-                    (identifier FACTOR) = 
-                    (constant 
-                        (unsignedNumber 
-                            (unsignedInteger 8)))) ; 
-                (constantDefinition 
-                    (identifier epsilon) = 
-                    (constant 
-                        (unsignedNumber 
-                            (unsignedReal 1.0e-6)))) ;) 
-            (typeDefinitionPart TYPE 
-                (typeDefinition 
-                    (identifier arr) = 
-                    (type_ 
-                        (structuredType 
-                            (unpackedStructuredType 
-                                (arrayType array [ 
-                                    (typeList 
-                                        (indexType 
-                                            (simpleType 
-                                                (typeIdentifier boolean))) , 
-                                        (indexType 
-                                            (simpleType 
-                                                (typeIdentifier char)))) ] of 
-                                    (componentType 
-                                        (type_ 
-                                            (simpleType 
-                                                (typeIdentifier char))))))))) ; 
-                (typeDefinition 
-                    (identifier arr2) = 
-                    (type_ 
-                        (structuredType 
-                            (unpackedStructuredType 
-                                (arrayType array [ 
-                                    (typeList 
-                                        (indexType 
-                                            (simpleType 
-                                                (typeIdentifier char)))) ] of 
-                                    (componentType 
-                                        (type_ 
-                                            (simpleType 
-                                                (typeIdentifier 
-                                                    (identifier arr)))))))))) ; 
-                (typeDefinition 
-                    (identifier ty_1) = 
-                    (type_ 
-                        (simpleType 
-                            (typeIdentifier integer)))) ; 
-                (typeDefinition 
-                    (identifier ty_2) = 
-                    (type_ 
-                        (simpleType 
-                            (typeIdentifier boolean)))) ; 
-                (typeDefinition 
-                    (identifier real10) = 
-                    (type_ 
-                        (simpleType 
-                            (typeIdentifier real)))) ;) 
             (variableDeclarationPart VAR 
                 (variableDeclaration 
                     (identifierList 
-                        (identifier i) , 
-                        (identifier _var) , 
-                        (identifier xyz)) : 
+                        (identifier temp)) : 
                     (type_ 
                         (simpleType 
                             (typeIdentifier integer)))) ;) 
-            (procedureAndFunctionDeclarationPart 
-                (procedureOrFunctionDeclaration 
-                    (procedureDeclaration PROCEDURE 
-                        (identifier p) 
-                        (formalParameterList ( 
-                            (formalParameterSection const 
-                                (parameterGroup 
-                                    (identifierList 
-                                        (identifier j)) : 
-                                    (typeIdentifier real))) )) ; 
-                        (block 
-                            (variableDeclarationPart VAR 
-                                (variableDeclaration 
-                                    (identifierList 
-                                        (identifier k)) : 
-                                    (type_ 
-                                        (simpleType 
-                                            (typeIdentifier char)))) ;) 
-                            (procedureAndFunctionDeclarationPart 
-                                (procedureOrFunctionDeclaration 
-                                    (functionDeclaration FUNCTION 
-                                        (identifier f) 
-                                        (formalParameterList ( 
-                                            (formalParameterSection 
-                                                (parameterGroup 
-                                                    (identifierList 
-                                                        (identifier x)) : 
-                                                    (typeIdentifier real))) )) : 
-                                        (resultType 
-                                            (typeIdentifier real)) ; 
-                                        (block 
-                                            (variableDeclarationPart VAR 
-                                                (variableDeclaration 
-                                                    (identifierList 
-                                                        (identifier i)) : 
-                                                    (type_ 
-                                                        (simpleType 
-                                                            (typeIdentifier real)))) ;) 
-                                            (compoundStatement BEGIN 
-                                                (statements 
-                                                    (statement 
-                                                        (unlabelledStatement 
-                                                            (simpleStatement 
-                                                                (assignmentStatement 
-                                                                    (variable 
-                                                                        (identifier f)) := 
-                                                                    (expression 
-                                                                        (simpleExpression 
-                                                                            (term 
-                                                                                (signedFactor 
-                                                                                    (factor 
-                                                                                        (variable 
-                                                                                            (identifier i))))) 
-                                                                            (additiveoperator +) 
-                                                                            (simpleExpression 
-                                                                                (term 
-                                                                                    (signedFactor 
-                                                                                        (factor 
-                                                                                            (variable 
-                                                                                                (identifier j))))) 
-                                                                                (additiveoperator +) 
-                                                                                (simpleExpression 
-                                                                                    (term 
-                                                                                        (signedFactor 
-                                                                                            (factor 
-                                                                                                (variable 
-                                                                                                    (identifier n))))) 
-                                                                                    (additiveoperator +) 
-                                                                                    (simpleExpression 
-                                                                                        (term 
-                                                                                            (signedFactor 
-                                                                                                (factor 
-                                                                                                    (variable 
-                                                                                                        (identifier x)))))))))))))) ; 
-                                                    (statement 
-                                                        (unlabelledStatement 
-                                                            (simpleStatement emptyStatement_)))) END)))) ;) 
-                            (compoundStatement BEGIN 
-                                (statements 
-                                    (statement 
-                                        (unlabelledStatement 
-                                            (simpleStatement 
-                                                (assignmentStatement 
-                                                    (variable 
-                                                        (identifier k)) := 
-                                                    (expression 
-                                                        (simpleExpression 
-                                                            (term 
-                                                                (signedFactor 
-                                                                    (factor 
-                                                                        (functionDesignator 
-                                                                            (identifier chr) ( 
-                                                                            (parameterList 
-                                                                                (actualParameter 
-                                                                                    (expression 
-                                                                                        (simpleExpression 
-                                                                                            (term 
-                                                                                                (signedFactor 
-                                                                                                    (factor 
-                                                                                                        (variable 
-                                                                                                            (identifier i))))) 
-                                                                                            (additiveoperator +) 
-                                                                                            (simpleExpression 
-                                                                                                (term 
-                                                                                                    (signedFactor 
-                                                                                                        (factor 
-                                                                                                            (functionDesignator 
-                                                                                                                (identifier trunc) ( 
-                                                                                                                (parameterList 
-                                                                                                                    (actualParameter 
-                                                                                                                        (expression 
-                                                                                                                            (simpleExpression 
-                                                                                                                                (term 
-                                                                                                                                    (signedFactor 
-                                                                                                                                        (factor 
-                                                                                                                                            (functionDesignator 
-                                                                                                                                                (identifier f) ( 
-                                                                                                                                                (parameterList 
-                                                                                                                                                    (actualParameter 
-                                                                                                                                                        (expression 
-                                                                                                                                                            (simpleExpression 
-                                                                                                                                                                (term 
-                                                                                                                                                                    (signedFactor 
-                                                                                                                                                                        (factor 
-                                                                                                                                                                            (variable 
-                                                                                                                                                                                (identifier n))))))))) ))))))))) )))))))))) ))))))))))) ; 
-                                    (statement 
-                                        (unlabelledStatement 
-                                            (simpleStatement emptyStatement_)))) END)))) ;) 
             (compoundStatement BEGIN 
                 (statements 
                     (statement 
@@ -208,15 +18,7 @@ Parse tree (Lisp format):
                             (simpleStatement 
                                 (assignmentStatement 
                                     (variable 
-                                        (identifier arr) [ 
-                                        (expression 
-                                            (simpleExpression 
-                                                (term 
-                                                    (signedFactor 
-                                                        (factor 
-                                                            (unsignedConstant 
-                                                                (unsignedNumber 
-                                                                    (unsignedInteger 45)))))))) ]) := 
+                                        (identifier temp)) := 
                                     (expression 
                                         (simpleExpression 
                                             (term 
@@ -224,7 +26,7 @@ Parse tree (Lisp format):
                                                     (factor 
                                                         (unsignedConstant 
                                                             (unsignedNumber 
-                                                                (unsignedInteger 1)))))))))))) ; 
+                                                                (unsignedInteger 5)))))))))))) ; 
                     (statement 
                         (unlabelledStatement 
                             (simpleStatement emptyStatement_)))) END)) . <EOF>)
@@ -264,41 +66,5 @@ Nesting Level 0------------------------------------------------------
 -----------------------------------------------------------------------
 Nesting Level 1------------------------------------------------------
   NAME                KIND                  TYPE
-  FACTOR              constant              undefined
-  _var                variable              integer Scalar
-  arr                 type                  Array
-                                              ElementType: Array
-                                                 ElementType: char Scalar
-                                                 ElementCount: 256
-                                                 IndexType: char
-                                              ElementCount: 2
-                                              IndexType: boolean
-  arr2                type                  Array
-                                              ElementType: Array
-                                                 ElementType: Array
-                                                    ElementType: char Scalar
-                                                    ElementCount: 256
-                                                    IndexType: char
-                                                 ElementCount: 2
-                                                 IndexType: boolean
-                                              ElementCount: 256
-                                              IndexType: char
-  epsilon             constant              undefined
-  i                   variable              integer Scalar
-  p                   PROCEDURE             undefined
-  real10              type                  real Scalar
-  ty_1                type                  integer Scalar
-  ty_2                type                  boolean Scalar
-  xyz                 variable              integer Scalar
------------------------------------------------------------------------
-Nesting Level 2------------------------------------------------------
-  NAME                KIND                  TYPE
-  f                   FUNCTION              undefined
-  j                   reference parameter   real Scalar
-  k                   variable              char Scalar
------------------------------------------------------------------------
-Nesting Level 3------------------------------------------------------
-  NAME                KIND                  TYPE
-  i                   variable              real Scalar
-  x                   value parameter       real Scalar
+  temp                variable              integer Scalar
 -----------------------------------------------------------------------
