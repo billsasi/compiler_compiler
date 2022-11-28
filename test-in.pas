@@ -1,11 +1,11 @@
 PROGRAM Test;
 
 VAR
-  temp: integer;
+  result: integer;
 
 BEGIN
 
-  temp := 5;
+  result := 3;
 
 END {Test}.
 

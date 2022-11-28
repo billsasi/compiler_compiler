@@ -37,26 +37,36 @@ int main(int argc, const char *args[])
     PascalParser parser(&tokens);
     tree::ParseTree *tree = parser.program(); 
     std::vector<Symtab *> symtabs = parser.getSymtabList();
-    std::vector<Typespec *> types = parser.getTypedefList();
+    std::vector<std::string> errors = parser.getErrorList();
+
+    if (errors.size() > 0)
+    {
+        for (std::string error : errors)
+        {
+            std::cout << error << std::endl;
+        }
+        return 0;
+    }
 
     CodeGenerator codeGenerator;
+    codeGenerator.visit(tree);
 
-    // Print the parse tree in Lisp format.
-    cout << endl << "Parse tree (Lisp format):" << endl;
-    out << endl << "Parse tree (Lisp format):" << endl;
-    cout << toStringTree(tree, parser.getRuleNames(), true) << endl;
-    out << toStringTree(tree, parser.getRuleNames(), true) << endl;
-    //std::cout << tree->toStringTree(&parser) << endl;
-    //out << tree->toStringTree(&parser) << endl;
+    // // Print the parse tree in Lisp format.
+    // cout << endl << "Parse tree (Lisp format):" << endl;
+    // out << endl << "Parse tree (Lisp format):" << endl;
+    // cout << toStringTree(tree, parser.getRuleNames(), true) << endl;
+    // out << toStringTree(tree, parser.getRuleNames(), true) << endl;
+    // //std::cout << tree->toStringTree(&parser) << endl;
+    // //out << tree->toStringTree(&parser) << endl;
 
-    // Print the symbol tables.
-    cout << endl << "SYMTABS / TYPEDEFS:" << endl;
-    out << endl << "SYMTABS / TYPEDEFS:" << endl;
-    for (Symtab *symtab : symtabs)
-    {
-        printSymtab(cout, symtab);
-        printSymtab(out, symtab);
-    }
+    // // Print the symbol tables.
+    // cout << endl << "SYMTABS / TYPEDEFS:" << endl;
+    // out << endl << "SYMTABS / TYPEDEFS:" << endl;
+    // for (Symtab *symtab : symtabs)
+    // {
+    //     printSymtab(cout, symtab);
+    //     printSymtab(out, symtab);
+    // }
 
     return 0;
 }

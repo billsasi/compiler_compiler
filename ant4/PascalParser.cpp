@@ -189,7 +189,8 @@ PascalParser::ProgramHeadingContext* PascalParser::programHeading() {
         setState(208);
         _errHandler->sync(this);
 
-        symtabStack.push(); // move from global scope to level 1 (program scope)
+        auto progSymtab = symtabStack.push(); // move from global scope to level 1 (program scope)
+        entry->setRoutineSymtab(progSymtab);
         symtabList.push_back(symtabStack.getLocalSymtab()); // keep track of it
 
         _la = _input->LA(1);
@@ -8008,6 +8009,10 @@ std::vector<Symtab*> PascalParser::getSymtabList() {
 
 std::vector<Typespec*> PascalParser::getTypedefList() {
   return typedefList;
+}
+
+std::vector<std::string> PascalParser::getErrorList() {
+  return errorList;
 }
 
 int calculateElementCount(string typestr) {

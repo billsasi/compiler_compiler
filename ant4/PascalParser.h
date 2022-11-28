@@ -1723,6 +1723,8 @@ public:
   std::vector<Symtab*> getSymtabList();
   // get typelist
   std::vector<Typespec*> getTypedefList();
+  // get errors
+  std::vector<std::string> getErrorList();
 
   void setErrorOut(ostream& o);
 
@@ -1742,6 +1744,7 @@ private:
   SymtabStack symtabStack;
   std::vector<Symtab *> symtabList;
   std::vector<Typespec *> typedefList;
+  std::vector<std::string> errorList;
 
   struct Initializer {
     Initializer();
