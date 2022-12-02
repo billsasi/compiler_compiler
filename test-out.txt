@@ -45,52 +45,24 @@ Parse tree (Lisp format):
                                                                 (unsignedInteger 1)))))))))))) ; 
                     (statement 
                         (unlabelledStatement 
-                            (structuredStatement 
-                                (conditionalStatement 
-                                    (ifStatement if 
-                                        (expression 
+                            (simpleStatement 
+                                (assignmentStatement 
+                                    (variable 
+                                        (identifier c)) := 
+                                    (expression 
+                                        (simpleExpression 
+                                            (term 
+                                                (signedFactor 
+                                                    (factor 
+                                                        (variable 
+                                                            (identifier a))))) 
+                                            (additiveoperator +) 
                                             (simpleExpression 
                                                 (term 
                                                     (signedFactor 
                                                         (factor 
                                                             (variable 
-                                                                (identifier a)))))) 
-                                            (relationaloperator =) 
-                                            (expression 
-                                                (simpleExpression 
-                                                    (term 
-                                                        (signedFactor 
-                                                            (factor 
-                                                                (variable 
-                                                                    (identifier b)))))))) then 
-                                        (statement 
-                                            (unlabelledStatement 
-                                                (simpleStatement 
-                                                    (assignmentStatement 
-                                                        (variable 
-                                                            (identifier c)) := 
-                                                        (expression 
-                                                            (simpleExpression 
-                                                                (term 
-                                                                    (signedFactor 
-                                                                        (factor 
-                                                                            (unsignedConstant 
-                                                                                (unsignedNumber 
-                                                                                    (unsignedInteger 1)))))))))))) else 
-                                        (statement 
-                                            (unlabelledStatement 
-                                                (simpleStatement 
-                                                    (assignmentStatement 
-                                                        (variable 
-                                                            (identifier c)) := 
-                                                        (expression 
-                                                            (simpleExpression 
-                                                                (term 
-                                                                    (signedFactor 
-                                                                        (factor 
-                                                                            (unsignedConstant 
-                                                                                (unsignedNumber 
-                                                                                    (unsignedInteger 2))))))))))))))))) ; 
+                                                                (identifier b)))))))))))) ; 
                     (statement 
                         (unlabelledStatement 
                             (simpleStatement emptyStatement_)))) END)) . <EOF>)

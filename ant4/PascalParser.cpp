@@ -266,7 +266,10 @@ PascalParser::IdentifierContext* PascalParser::identifier() {
     enterOuterAlt(_localctx, 1);
     setState(218);
     match(PascalParser::IDENT);
-   
+    if (_localctx->entry == nullptr) {
+      std::string name = _localctx->getText();
+      _localctx->entry = symtabStack.lookup(name);
+    }
   }
   catch (RecognitionException &e) {
     _errHandler->reportError(this, e);

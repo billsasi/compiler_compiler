@@ -224,6 +224,7 @@ public:
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
 
     SymtabEntry *entry = nullptr;
+    
    
   };
 

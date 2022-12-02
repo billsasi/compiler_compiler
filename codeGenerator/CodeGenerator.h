@@ -7,6 +7,7 @@
 #include <stack>
 #include <map>
 #include <iomanip>
+#include "../intermediate/symtab/Predefined.h"
 
 using namespace std;
 
@@ -20,20 +21,24 @@ public:
     file = std::ofstream(name);
     nestingLevel = 0;
     address = 0;
+    labelCount = 0;
   }
 
   int emit(string label, string inst) {
     file << setw(20) << left << label << " " << inst << endl;
+    cout << setw(20) << left << label << " " << inst << endl;
     return address++;
   }
 
   int emit(string inst) {
     file << setw(20) << left << "" << " " << inst << endl;
+    cout << setw(20) << left << "" << " " << inst << endl;
     return address++;
   }
 
   void emitData(string label, string inst) {
     file << setw(20) << left << label << " " << inst << endl;
+    cout << setw(20) << left << label << " " << inst << endl;
   }
 
   void emitPrint() {
@@ -111,13 +116,15 @@ public:
     return offset - 9;
   }
 
+  string getLabel() {
+    return "L" + to_string(labelCount++);
+  }
+
   antlrcpp::Any visitProgram(PascalParser::ProgramContext *ctx);
   antlrcpp::Any visitProgramHeading(PascalParser::ProgramHeadingContext *ctx);
   antlrcpp::Any visitAssignmentStatement(PascalParser::AssignmentStatementContext *ctx);
-  antlrcpp::Any visitFactor(PascalParser::FactorContext *ctx);
   antlrcpp::Any visitSimpleExpression(PascalParser::SimpleExpressionContext *ctx);
   antlrcpp::Any visitIfStatement(PascalParser::IfStatementContext *ctx);
-  antlrcpp::Any visitSimpleExpression(PascalParser::SimpleExpressionContext *ctx);
   antlrcpp::Any visitExpression(PascalParser::ExpressionContext *ctx);
   antlrcpp::Any visitTerm(PascalParser::TermContext *ctx);
   antlrcpp::Any visitSignedFactor(PascalParser::SignedFactorContext *ctx);
@@ -129,5 +136,7 @@ private:
   int nestingLevel;
   int address;
   Symtab *curSymtab;
+  int topOfStackBytes; // used to store the size of the last value pushed onto the stack 
+  int labelCount;
 
 };
