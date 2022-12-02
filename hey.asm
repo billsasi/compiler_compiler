@@ -72,6 +72,63 @@ main                 LDA #9
                      LDS stack, X
                      ADDR T, S
                      STS stack, X
+                     LDA #1
+                     JSUB findStackFrame
+                     ADD #15
+                     CLEAR X
+                     ADDR A, X
+                     STB #3
+                     LDA stack, X
+                     LDX stackindex
+                     STA stack, X
+                     LDA stackindex
+                     ADD #3
+                     STA stackindex
+                     LDX stackindex
+                     LDA #2
+                     STA stack, X
+                     LDA stackindex
+                     ADD #3
+                     STA stackindex
+                     LDA stackindex
+                     SUB #3
+                     RMO A, X
+                     LDT stack, X
+                     RMO X, A
+                     SUB #3
+                     RMO A, X
+                     LDS stack, X
+                     COMPR T, S
+                     JEQ L0
+                     LDA #0
+                     J L1
+L0                   LDA #1
+L1                   STCH stack, X
+                     STX stackindex
+                     LDA stackindex
+                     SUB #1
+                     RMO A, X
+                     LDCH stack, X
+                     STX stackindex
+                     CLEAR S
+                     COMPR A, S
+                     JEQ L2
+                     LDX stackindex
+                     LDA #1
+                     STA stack, X
+                     LDA stackindex
+                     ADD #3
+                     STA stackindex
+                     J L3
+L2                   
+                     LDX stackindex
+                     LDA #2
+                     STA stack, X
+                     LDA stackindex
+                     ADD #3
+                     STA stackindex
+L3                   
+                     STA temp
 endprogram           END hey
 stack                RESB 10000
 stackindex           WORD 0

@@ -124,12 +124,14 @@ public:
   antlrcpp::Any visitProgramHeading(PascalParser::ProgramHeadingContext *ctx);
   antlrcpp::Any visitAssignmentStatement(PascalParser::AssignmentStatementContext *ctx);
   antlrcpp::Any visitSimpleExpression(PascalParser::SimpleExpressionContext *ctx);
-  antlrcpp::Any visitIfStatement(PascalParser::IfStatementContext *ctx);
   antlrcpp::Any visitExpression(PascalParser::ExpressionContext *ctx);
   antlrcpp::Any visitTerm(PascalParser::TermContext *ctx);
   antlrcpp::Any visitSignedFactor(PascalParser::SignedFactorContext *ctx);
   antlrcpp::Any visitVariable(PascalParser::VariableContext *ctx);
   antlrcpp::Any visitFactor(PascalParser::FactorContext *ctx);
+  antlrcpp::Any visitIfStatement(PascalParser::IfStatementContext *ctx);
+  antlrcpp::Any visitForStatement(PascalParser::ForStatementContext *ctx);
+  antlrcpp::Any visitWhileStatement(PascalParser::WhileStatementContext *ctx);
 
 private:
   ofstream file;

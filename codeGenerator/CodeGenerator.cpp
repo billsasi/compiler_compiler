@@ -21,6 +21,7 @@ antlrcpp::Any CodeGenerator::visitProgram(PascalParser::ProgramContext *ctx) {
     visitBlock(ctx->block());
     
 
+    emit("STA temp"); // to prevent assembler errors related to labels
     emit("endprogram", "END " + name);
     emitMemory();
 
@@ -167,10 +168,6 @@ antlrcpp::Any CodeGenerator::visitProgram(PascalParser::ProgramContext *ctx) {
     emit("STS stack, X");
 
     return nullptr;
-  }
-
-  antlrcpp::Any CodeGenerator::visitIfStatement(PascalParser::IfStatementContext *ctx) {
-    return visitChildren(ctx);
   }
 
   antlrcpp::Any CodeGenerator::visitExpression(PascalParser::ExpressionContext *ctx) {
@@ -323,3 +320,41 @@ antlrcpp::Any CodeGenerator::visitProgram(PascalParser::ProgramContext *ctx) {
 
     return nullptr;
   }
+
+antlrcpp::Any CodeGenerator::visitIfStatement(PascalParser::IfStatementContext *ctx) {
+  visitExpression(ctx->expression());
+  int bytes = topOfStackBytes;
+  string falseLabel = getLabel();
+  string endLabel = getLabel();
+  emit("LDA stackindex");
+  emit("SUB #" + to_string(bytes));
+  emit("RMO A, X");
+  if (bytes == 1)
+    emit("LDCH stack, X");
+  else if (bytes == 3)
+    emit("LDA stack, X");
+  else
+    emit("LDA stack, X");
+  emit("STX stackindex"); // pop expression off the stack
+  emit("CLEAR S");
+  emit("COMPR A, S");
+  emit("JEQ " + falseLabel);
+  if (ctx->statement().size() > 0) {
+    visitStatement(ctx->statement()[0]);
+  }
+  emit("J " + endLabel);
+  emit(falseLabel, "");
+  if (ctx->statement().size() > 1) {
+    visitStatement(ctx->statement()[1]);
+  }
+  emit(endLabel, "");
+  return nullptr;
+}
+
+antlrcpp::Any CodeGenerator::visitForStatement(PascalParser::ForStatementContext *ctx) {
+  return visitChildren(ctx);
+}
+
+antlrcpp::Any CodeGenerator::visitWhileStatement(PascalParser::WhileStatementContext *ctx) {
+  return visitChildren(ctx);
+}

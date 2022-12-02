@@ -65,6 +65,55 @@ Parse tree (Lisp format):
                                                                 (identifier b)))))))))))) ; 
                     (statement 
                         (unlabelledStatement 
+                            (structuredStatement 
+                                (conditionalStatement 
+                                    (ifStatement if 
+                                        (expression 
+                                            (simpleExpression 
+                                                (term 
+                                                    (signedFactor 
+                                                        (factor 
+                                                            (variable 
+                                                                (identifier c)))))) 
+                                            (relationaloperator =) 
+                                            (expression 
+                                                (simpleExpression 
+                                                    (term 
+                                                        (signedFactor 
+                                                            (factor 
+                                                                (unsignedConstant 
+                                                                    (unsignedNumber 
+                                                                        (unsignedInteger 2))))))))) then 
+                                        (statement 
+                                            (unlabelledStatement 
+                                                (simpleStatement 
+                                                    (assignmentStatement 
+                                                        (variable 
+                                                            (identifier c)) := 
+                                                        (expression 
+                                                            (simpleExpression 
+                                                                (term 
+                                                                    (signedFactor 
+                                                                        (factor 
+                                                                            (unsignedConstant 
+                                                                                (unsignedNumber 
+                                                                                    (unsignedInteger 1)))))))))))) else 
+                                        (statement 
+                                            (unlabelledStatement 
+                                                (simpleStatement 
+                                                    (assignmentStatement 
+                                                        (variable 
+                                                            (identifier c)) := 
+                                                        (expression 
+                                                            (simpleExpression 
+                                                                (term 
+                                                                    (signedFactor 
+                                                                        (factor 
+                                                                            (unsignedConstant 
+                                                                                (unsignedNumber 
+                                                                                    (unsignedInteger 2))))))))))))))))) ; 
+                    (statement 
+                        (unlabelledStatement 
                             (simpleStatement emptyStatement_)))) END)) . <EOF>)
 
 SYMTABS / TYPEDEFS:

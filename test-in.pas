@@ -10,7 +10,12 @@ BEGIN
   b := 1;
   
   c := a + b;
-  
+
+  if c = 2 then
+    c := 1
+  else
+    c := 2;
+
 
 END {Test}. 
 
