@@ -1726,6 +1726,8 @@ public:
   // get errors
   std::vector<std::string> getErrorList();
 
+  SymtabEntry* getProgramId() { return symtabStack.getProgramId(); }
+
   void setErrorOut(ostream& o);
 
 

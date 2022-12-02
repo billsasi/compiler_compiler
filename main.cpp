@@ -48,25 +48,26 @@ int main(int argc, const char *args[])
         return 0;
     }
 
-    CodeGenerator codeGenerator;
+    SymtabEntry *programId = parser.getProgramId();
+    CodeGenerator codeGenerator(programId);
     codeGenerator.visit(tree);
 
-    // // Print the parse tree in Lisp format.
-    // cout << endl << "Parse tree (Lisp format):" << endl;
-    // out << endl << "Parse tree (Lisp format):" << endl;
-    // cout << toStringTree(tree, parser.getRuleNames(), true) << endl;
-    // out << toStringTree(tree, parser.getRuleNames(), true) << endl;
-    // //std::cout << tree->toStringTree(&parser) << endl;
-    // //out << tree->toStringTree(&parser) << endl;
+    // Print the parse tree in Lisp format.
+    cout << endl << "Parse tree (Lisp format):" << endl;
+    out << endl << "Parse tree (Lisp format):" << endl;
+    cout << toStringTree(tree, parser.getRuleNames(), true) << endl;
+    out << toStringTree(tree, parser.getRuleNames(), true) << endl;
+    //std::cout << tree->toStringTree(&parser) << endl;
+    //out << tree->toStringTree(&parser) << endl;
 
-    // // Print the symbol tables.
-    // cout << endl << "SYMTABS / TYPEDEFS:" << endl;
-    // out << endl << "SYMTABS / TYPEDEFS:" << endl;
-    // for (Symtab *symtab : symtabs)
-    // {
-    //     printSymtab(cout, symtab);
-    //     printSymtab(out, symtab);
-    // }
+    // Print the symbol tables.
+    cout << endl << "SYMTABS / TYPEDEFS:" << endl;
+    out << endl << "SYMTABS / TYPEDEFS:" << endl;
+    for (Symtab *symtab : symtabs)
+    {
+        printSymtab(cout, symtab);
+        printSymtab(out, symtab);
+    }
 
     return 0;
 }

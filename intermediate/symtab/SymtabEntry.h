@@ -128,6 +128,7 @@ private:
     int slotNumber;           // local variables array slot number
     vector<int> lineNumbers;  // source line numbers
     EntryInfo info;           // entry information
+    int frameOffset;
 
 public:
     /**
@@ -138,7 +139,7 @@ public:
      */
     SymtabEntry(const string name, const Kind kind, Symtab *symtab)
         : name(name), kind(kind), symtab(symtab), typespec(nullptr),
-          slotNumber(0)
+          slotNumber(0), frameOffset(0)
     {
         switch (kind)
         {
@@ -316,6 +317,18 @@ public:
     {
         info.routine.executable = new Object(executable);
     }
+
+    /**
+     * Get the frame offset.
+     * @return the offset.
+     */
+    int getFrameOffset() const { return frameOffset; }
+
+    /**
+     * Set the frame offset.
+     * @param offset the offset to set.
+     */
+    void setFrameOffset(int offset) { frameOffset = offset; }
 };
 
 }}  // namespace intermediate::symtab

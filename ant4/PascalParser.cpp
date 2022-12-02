@@ -4420,6 +4420,7 @@ PascalParser::AssignmentStatementContext* PascalParser::assignmentStatement() {
       if (leftIdent) {
         auto leftText = leftIdent->getText();
         auto entry = symtabStack.lookup(leftText);
+        leftIdent->entry = entry;
         if (entry) {
           leftType = entry->getType();
         } else {

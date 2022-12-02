@@ -32,6 +32,9 @@ private:
 
     static int unnamedIndex;              // index for unnamed type names
 
+    int offsetCounter;                    // stores the current runtime stack offset next var to be entered
+    int localVariableBytes;
+
 public:
     /**
      * Constructor.
@@ -149,6 +152,9 @@ public:
             if (entry->getKind() == VARIABLE) entry->setKind(kind);
         }
     }
+
+    int getLocalVariableBytes() const { return localVariableBytes; }
+    void setLocalVariableBytes(int bytes) { localVariableBytes = bytes; }
 };
 
 }}  // namespace intermediate::symtab

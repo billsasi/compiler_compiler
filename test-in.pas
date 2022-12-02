@@ -1,13 +1,17 @@
-PROGRAM Test;
+PROGRAM hey;
 
 VAR
-  result: integer;
+
+  a, b, c: integer;
+
 
 BEGIN
+  a := 1;
+  b := 1;
+  
+  c := a + b;
 
-  result := 3;
-
-END {Test}.
+END {Test}. 
 
 (*
 PROGRAM Test;
@@ -17,13 +21,13 @@ CONST
     factor = 'a';
 
 TYPE
-    arr1 = ARRAY [boolean] OF integer;
-    arr2 = ARRAY [char, boolean] OF integer;
-    arr3 = ARRAY [char] OF array [boolean] of real
+    arr1 = ARRAY [1..10] OF integer;
+    arr2 = ARRAY [0..3, 0..1] OF integer;
+    arr3 = ARRAY [0..1] OF array [0..2] of real;
 
 VAR i, j, k, n : integer;
 
-PROCEDURE p(j : real));
+PROCEDURE p(j : real);
   VAR k : char;
 
   FUNCTION f(x : real) : real;
@@ -38,6 +42,6 @@ PROCEDURE p(j : real));
   END {p};
 
 BEGIN {test}
-  p(j + k + n)
+  p(j + k + n);
 END {test}.
 *)

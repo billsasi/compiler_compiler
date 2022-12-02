@@ -6,81 +6,128 @@
 #include "../ant4/PascalBaseVisitor.h"
 #include <stack>
 #include <map>
+#include <iomanip>
 
 using namespace std;
 
 class CodeGenerator : public PascalBaseVisitor {
 public:
-  CodeGenerator() {
-    file = std::ofstream("output.asm");
+  CodeGenerator(SymtabEntry *programId) {
+    string name = "output.asm";
+    if (programId != nullptr) {
+      name = programId->getName() += ".asm";
+    } 
+    file = std::ofstream(name);
     nestingLevel = 0;
+    address = 0;
+  }
+
+  int emit(string label, string inst) {
+    file << setw(20) << left << label << " " << inst << endl;
+    return address++;
+  }
+
+  int emit(string inst) {
+    file << setw(20) << left << "" << " " << inst << endl;
+    return address++;
+  }
+
+  void emitData(string label, string inst) {
+    file << setw(20) << left << label << " " << inst << endl;
+  }
+
+  void emitPrint() {
+    emit("outdev",	"BYTE	5");
+    emit("pstr",	"LDCH	0, X	");
+	  emit("COMP	#0"	);
+	  emit("JGT	pstr1");
+	  emit("RSUB"		);
+    emit("pstr1",	"TD	outdev	");
+	  emit("JEQ	pstr1"	);
+	  emit("WD	outdev"	);
+	  emit("TIX ");
+	  emit("J	pstr"	);
+  }
+
+  // A contains scope
+  // returns framestart at X
+  void emitFindStackFrame() {
+    emit("findStackFrame", "LDX framestart" );
+    emit("findStackFrameloop","LDT #3" );
+    emit("ADDR T, X" );
+    emit("COMP stack, X");
+    emit("JEQ done");
+    emit("ADDR T, X" );
+    emit("LDX stack, X" );
+    emit("J findStackFrameloop");
+    emit("done", "SUBR T, X");
+    emit("RSUB");
   }
 
   void emitInitFrame() {
-    file << "LDX stackindex" << endl;
-    file << "STB stack, x" << endl;
-    file << "ADD #6" << endl;
-    file << "ADD stackindex" << endl;
-    file << "COMP stackmax" << endl;
-    file << "JGT ENDPROGRAM" << endl;
-    file << "STA stackindex" << endl;
+    emit("initFrame", "LDX stackindex" );
+    emit("", "LDS framestart" );
+    emit("", "STX framestart" );
+    emit("", "LDT #3" );
+    emit("", "ADDR T, X" );
+    emit("", "STB stack, X" );       // Store scope
+    emit("", "ADDR T, X" );
+    emit("", "STS stack, X" );       // Store previous framestart
+    emit("", "ADDR T, X" );
+    emit("", "ADDR A, X" );
+    emit("", "STX stackindex" );
+    emit("", "RSUB" );
   }
 
-  antlrcpp::Any visitProgram(PascalParser::ProgramContext *ctx) {
-    file << "output START 0" << std::endl;
-    file << "stack RESB 10000\n"; // stack
-    file <<"stackindex WORD 0\n"; //; index into stack
-    file <<"stackmax WORD 10000\n"; //; maximum stack index
-    file <<"display RESB 100\n"; //; run time display
-    file <<"displayindex WORD 0\n"; //; index into display
-    file <<"displaymax WORD 100\n"; //; maximum display index
-    file <<"returnvalue RESB 500\n"; //; space for function return value [HACK]
-    file <<"returnmax WORD 500\n"; //; maximum size of return value
-    nestingLevel++;
-    std::map<std::string, int> offsetMap;
-    int offset = 0;
-    
-    //0 - return
-    //1 - scope
-    //2 - index to prev frame
-    //3 - locals
+  void emitMemory() {
+    emitData("stack", "RESB 10000"); // stack
+    emitData("stackindex","WORD 0"); //; index into stack
+    emitData("framestart","WORD 0"); //; index into stack
+    emitData("stackmax","WORD 10000"); //; maximum stack index
+    emitData("display","RESB 100"); //; run time display
+    emitData("displayindex","WORD 0"); //; index into display
+    emitData("displaymax","WORD 100"); //; maximum display index
+    emitData("returnvalue","RESB 500"); //; space for function return value [HACK]
+    emitData("returnmax","WORD 500"); //; maximum size of return value
+    emitData("temp","WORD 0"); //; temp var
+  }
 
-    visitProgramHeading(ctx->programHeading());
-    auto entries = curSymtab->sortedEntries();
+  int setFrameOffsets(Symtab *symtab) {
+    int offset = 9; // 3 bytes for return address, 3 for scope, 3 for previous framestart
+    auto entries = symtab->sortedEntries();
     for (auto entry : entries) {
-      string name = entry->getName();
-      string type = entry->getType()->getIdentifier()->getName();
-      offsetMap[name] = offset;
-      if (type == "integer") {
+      Typespec *type = entry->getType();
+      entry->setFrameOffset(offset);
+      if (type == Predefined::integerType) {
         offset += 3;
-      } else if (type == "real") {
+      } else if (type == Predefined::realType) {
         offset += 6;
-      } else if (type == "boolean") {
+      } else if (type == Predefined::charType) {
         offset += 1;
-      } else if (type == "char") {
+      } else if (type == Predefined::booleanType) {
         offset += 1;
       }
     }
-
-    file << "STA " << offset << endl;
-    file << "STB 1" << endl;
-    emitInitFrame();
-
-    visitBlock(ctx->block());
-    
-    return nullptr;
+    return offset - 9;
   }
 
-  antlrcpp::Any visitProgramHeading(PascalParser::ProgramHeadingContext *ctx) {
-    curSymtab = ctx->identifier()->entry->getRoutineSymtab();
-    return visitChildren(ctx);
-  }
-
+  antlrcpp::Any visitProgram(PascalParser::ProgramContext *ctx);
+  antlrcpp::Any visitProgramHeading(PascalParser::ProgramHeadingContext *ctx);
+  antlrcpp::Any visitAssignmentStatement(PascalParser::AssignmentStatementContext *ctx);
+  antlrcpp::Any visitFactor(PascalParser::FactorContext *ctx);
+  antlrcpp::Any visitSimpleExpression(PascalParser::SimpleExpressionContext *ctx);
+  antlrcpp::Any visitIfStatement(PascalParser::IfStatementContext *ctx);
+  antlrcpp::Any visitSimpleExpression(PascalParser::SimpleExpressionContext *ctx);
+  antlrcpp::Any visitExpression(PascalParser::ExpressionContext *ctx);
+  antlrcpp::Any visitTerm(PascalParser::TermContext *ctx);
+  antlrcpp::Any visitSignedFactor(PascalParser::SignedFactorContext *ctx);
+  antlrcpp::Any visitVariable(PascalParser::VariableContext *ctx);
+  antlrcpp::Any visitFactor(PascalParser::FactorContext *ctx);
 
 private:
   ofstream file;
   int nestingLevel;
+  int address;
   Symtab *curSymtab;
-  // std::stack<std::map<std::string, int>> offsetStack;
 
 };
