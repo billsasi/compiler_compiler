@@ -17,7 +17,10 @@ public:
     string name = "output.asm";
     if (programId != nullptr) {
       name = programId->getName() += ".asm";
-    } 
+    } else {
+      exit(1);
+    }
+    cout << "Generating code to " << name << endl;
     file = std::ofstream(name);
     nestingLevel = 0;
     address = 0;
@@ -26,19 +29,19 @@ public:
 
   int emit(string label, string inst) {
     file << setw(20) << left << label << " " << inst << endl;
-    cout << setw(20) << left << label << " " << inst << endl;
+    //cout << setw(20) << left << label << " " << inst << endl;
     return address++;
   }
 
   int emit(string inst) {
     file << setw(20) << left << "" << " " << inst << endl;
-    cout << setw(20) << left << "" << " " << inst << endl;
+    //cout << setw(20) << left << "" << " " << inst << endl;
     return address++;
   }
 
   void emitData(string label, string inst) {
     file << setw(20) << left << label << " " << inst << endl;
-    cout << setw(20) << left << label << " " << inst << endl;
+    //cout << setw(20) << left << label << " " << inst << endl;
   }
 
   void emitPrint() {
@@ -61,11 +64,11 @@ public:
     emit("findStackFrameloop","LDT #3" );
     emit("ADDR T, X" );
     emit("COMP stack, X");
-    emit("JEQ done");
+    emit("JEQ findStackFramedone");
     emit("ADDR T, X" );
     emit("LDX stack, X" );
     emit("J findStackFrameloop");
-    emit("done", "SUBR T, X");
+    emit("findStackFramedone", "SUBR T, X");
     emit("RSUB");
   }
 
@@ -84,9 +87,21 @@ public:
     emit("", "RSUB" );
   }
 
+  void emitFreeFrame() {
+    emit("freeFrame", "LDA framestart" );
+    emit("", "STA stackindex" );
+    emit("", "ADD #6" );
+    emit("", "RMO A, X" );
+    emit("", "LDA stack, X" );
+    emit("", "STA framestart" );       
+    emit("", "RSUB" );
+  }
+
   void emitMemory() {
     emitData("stack", "RESB 10000"); // stack
     emitData("stackindex","WORD 0"); //; index into stack
+    emitData("evalstack", "RESB 1000"); // stack
+    emitData("evalstackindex","WORD 0"); //; index into stack
     emitData("framestart","WORD 0"); //; index into stack
     emitData("stackmax","WORD 10000"); //; maximum stack index
     emitData("display","RESB 100"); //; run time display
@@ -132,6 +147,7 @@ public:
   antlrcpp::Any visitIfStatement(PascalParser::IfStatementContext *ctx);
   antlrcpp::Any visitForStatement(PascalParser::ForStatementContext *ctx);
   antlrcpp::Any visitWhileStatement(PascalParser::WhileStatementContext *ctx);
+  antlrcpp::Any visitBlock(PascalParser::BlockContext *ctx);
 
 private:
   ofstream file;
@@ -140,5 +156,6 @@ private:
   Symtab *curSymtab;
   int topOfStackBytes; // used to store the size of the last value pushed onto the stack 
   int labelCount;
+  string currentLabel;
 
 };

@@ -1,10 +1,7 @@
-# Instructions
+# Pascal to SIC/XE Compiler
 
-Symbol table is built in PascalParser.cpp
+Instructions
 
-1. `make compile`
+1. `make`
 2. `./prog.out [filename]`
-3. Parse Tree and Symbol Table output in test-out.txt
-4. Note: Errors will be printed above the parse tree in the terminal
-5. We intentionally left syntax and type errors in test-in.txt to make sure that
-   the parser continues parsing.
+3. `[programname].asm` will be generated

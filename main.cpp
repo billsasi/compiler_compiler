@@ -19,7 +19,6 @@ using namespace antlr4::misc;
 int main(int argc, const char *args[])
 {
     ifstream source;
-    ofstream out("test-out.txt");
 
     // Create the input stream.
     source.open(args[1]);
@@ -52,22 +51,22 @@ int main(int argc, const char *args[])
     CodeGenerator codeGenerator(programId);
     codeGenerator.visit(tree);
 
-    // Print the parse tree in Lisp format.
-    cout << endl << "Parse tree (Lisp format):" << endl;
-    out << endl << "Parse tree (Lisp format):" << endl;
-    cout << toStringTree(tree, parser.getRuleNames(), true) << endl;
-    out << toStringTree(tree, parser.getRuleNames(), true) << endl;
-    //std::cout << tree->toStringTree(&parser) << endl;
-    //out << tree->toStringTree(&parser) << endl;
+    // // Print the parse tree in Lisp format.
+    // cout << endl << "Parse tree (Lisp format):" << endl;
+    // out << endl << "Parse tree (Lisp format):" << endl;
+    // cout << toStringTree(tree, parser.getRuleNames(), true) << endl;
+    // out << toStringTree(tree, parser.getRuleNames(), true) << endl;
+    // //std::cout << tree->toStringTree(&parser) << endl;
+    // //out << tree->toStringTree(&parser) << endl;
 
-    // Print the symbol tables.
-    cout << endl << "SYMTABS / TYPEDEFS:" << endl;
-    out << endl << "SYMTABS / TYPEDEFS:" << endl;
-    for (Symtab *symtab : symtabs)
-    {
-        printSymtab(cout, symtab);
-        printSymtab(out, symtab);
-    }
+    // // Print the symbol tables.
+    // cout << endl << "SYMTABS / TYPEDEFS:" << endl;
+    // out << endl << "SYMTABS / TYPEDEFS:" << endl;
+    // for (Symtab *symtab : symtabs)
+    // {
+    //     printSymtab(cout, symtab);
+    //     printSymtab(out, symtab);
+    // }
 
     return 0;
 }
